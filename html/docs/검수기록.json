@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-08",
+  "author": "with",
+  "htmlPages": 73,
+  "sitemapPaths": 27,
+  "sitemapMatchesSource": true,
+  "missingAssets": [],
+  "browserChecks": [
+    "73 screen headings rendered",
+    "journal third-level menu expands",
+    "third-level purchase list and breadcrumb",
+    "registration saves and returns to list"
+  ],
+  "limitations": [
+    "Real backend authentication, sync, SMS, DB integration are not implemented."
+  ]
+}

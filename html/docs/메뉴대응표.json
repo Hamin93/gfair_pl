@@ -1,0 +1,412 @@
+[
+  {
+    "name": "모니터링",
+    "icon": "layout-dashboard",
+    "items": [
+      [
+        "MON-01",
+        "통합 대시보드",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "O",
+          "buyer": "O"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "기본정보관리",
+    "icon": "folder",
+    "items": [
+      [
+        "BAS-01",
+        "행사관리",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "BAS-03",
+        "해외 바이어 관리",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "BAS-05",
+        "국내 바이어 관리",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "BAS-07",
+        "통역원 관리",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "BAS-09",
+        "참가기업 관리",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "행사정보",
+    "icon": "calendar-days",
+    "items": [
+      [
+        "PRE-01",
+        "해외 바이어",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "O",
+          "interpreter": "O",
+          "buyer": "X"
+        }
+      ],
+      [
+        "EVT-01",
+        "국내 바이어",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "O",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "EVT-02",
+        "통역원",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "O",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "PRE-04",
+        "통역원 매칭",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "상담일지",
+    "icon": "clipboard-list",
+    "items": [
+      [
+        "JNL-01",
+        "상담일지 현황",
+        [
+          [
+            "JNL-BUY",
+            "구매상담일지",
+            [],
+            {
+              "admin": "O",
+              "buyOperator": "X",
+              "exportOperator": "X",
+              "interpreter": "X",
+              "buyer": "O"
+            }
+          ],
+          [
+            "JNL-EXP",
+            "수출상담일지",
+            [],
+            {
+              "admin": "O",
+              "buyOperator": "X",
+              "exportOperator": "X",
+              "interpreter": "O",
+              "buyer": "X"
+            }
+          ]
+        ],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "O"
+        }
+      ],
+      [
+        "REVIEW-01",
+        "상담일지 승인/반려",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": null,
+          "exportOperator": null,
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "공지/알림",
+    "icon": "bell",
+    "items": [
+      [
+        "NTC-01",
+        "공지사항",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "△",
+          "buyer": "△"
+        }
+      ],
+      [
+        "NTC-02",
+        "FAQ",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "△",
+          "buyer": "△"
+        }
+      ],
+      [
+        "NTC-03",
+        "자료실",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "△",
+          "buyer": "△"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "통계",
+    "icon": "chart-no-axes-column",
+    "items": [
+      [
+        "STA-01",
+        "통계 대시보드",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "STA-02",
+        "연도별 상담실적 통계",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "STA-03",
+        "연도별 바이어 통계",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "환경설정",
+    "icon": "settings",
+    "items": [
+      [
+        "SET-01",
+        "그룹권한관리",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "SET-04",
+        "상담일지 관리",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "SURVEY-HOME",
+        "만족도설문 관리",
+        [
+          [
+            "SET-05",
+            "설문관리",
+            [],
+            {
+              "admin": "O",
+              "buyOperator": "X",
+              "exportOperator": "X",
+              "interpreter": "X",
+              "buyer": "X"
+            }
+          ],
+          [
+            "SET-06",
+            "응답관리",
+            [],
+            {
+              "admin": "O",
+              "buyOperator": "X",
+              "exportOperator": "X",
+              "interpreter": "X",
+              "buyer": "X"
+            }
+          ]
+        ],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ],
+      [
+        "SET-03",
+        "접근로그",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "기업정보",
+    "icon": "building-2",
+    "items": [
+      [
+        "ENT-01",
+        "기업정보",
+        [],
+        {
+          "admin": "X",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "O",
+          "buyer": "O"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "로그인",
+    "icon": "log-in",
+    "items": [
+      [
+        "COM-01",
+        "로그인",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "O",
+          "exportOperator": "O",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "알림",
+    "icon": "bell",
+    "items": [
+      [
+        "NTC-07",
+        "알림",
+        [],
+        {
+          "admin": "O",
+          "buyOperator": "X",
+          "exportOperator": "X",
+          "interpreter": "X",
+          "buyer": "X"
+        }
+      ]
+    ]
+  }
+]

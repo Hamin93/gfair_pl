@@ -1,0 +1,1 @@
+window.GFAIR_INCLUDE.footer=()=>'<footer class="footer"><span>G-FAIR KOREA 구매 및 수출 상담시스템</span><span>HTML v2.0 · 2026.10.08 · with</span></footer>';
