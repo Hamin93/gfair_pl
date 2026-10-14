@@ -17,3 +17,4 @@
 .ui-spec-toolbar select option,.ui-spec-toolbar select optgroup{background:#222;color:#f5f5f5}
 .ui-spec-toolbar .ui-spec-status,.ui-spec-toolbar .ui-spec-preview{color:#bbb}
 .ui-spec-toolbar button:focus-visible,.ui-spec-toolbar select:focus-visible{outline:2px solid #eee;outline-offset:3px}
+/* Description과 연결된 숫자 라벨 */.ui-spec-pin{background:#c62828;color:#fff;box-shadow:0 0 0 1px #c62828}
