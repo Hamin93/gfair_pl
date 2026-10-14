@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={yulotsogreen:'shyu'};
 window.GFAIR_REVISION_HISTORY=[
+  {"version":"v2.5","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"공지사항 Description을 번호·항목명·요소 유형·설명·기본값 5열 표로 정리"},
   {
     "version": "v2.4",
     "date": "2026.10.14",
