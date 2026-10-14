@@ -1,6 +1,6 @@
 window.GFAIR_INCLUDE.footer=()=>'<footer class="footer"><span>G-FAIR KOREA 구매 및 수출 상담시스템</span><span>HTML v2.0 · 2026.10.08 · with</span></footer>';
 
-// 공통 본문 하단에 기존 화면 코드를 표시한다. 화면 전환과 역할 변경에도 갱신한다.
+// 공통 본문 상단 왼쪽에 화면 ID 복사 버튼을 표시한다.
 (()=>{
  const app=document.getElementById('app');
  const showScreenId=()=>{
@@ -13,11 +13,21 @@ window.GFAIR_INCLUDE.footer=()=>'<footer class="footer"><span>G-FAIR KOREA 구�
   if(!label){
    label=document.createElement('div');
    label.className='screen-reference';
-   label.setAttribute('aria-label','화면 ID');
-   host.append(label);
+   const button=document.createElement('button');
+   button.type='button';
+   button.className='screen-reference-button';
+   button.title='클릭하면 화면 ID를 복사합니다.';
+   button.addEventListener('click',async()=>{
+    try{await navigator.clipboard.writeText(button.dataset.screenId);button.title='화면 ID를 복사했습니다.';}
+    catch{button.title='복사할 화면 ID: '+button.dataset.screenId;}
+   });
+   label.append(button);
+   host.prepend(label);
   }
   const text='화면 ID: '+id;
-  if(label.textContent!==text)label.textContent=text;
+  const button=label.querySelector('button');
+  button.dataset.screenId=id;
+  if(button.textContent!==text)button.textContent=text;
  };
  if(app){new MutationObserver(showScreenId).observe(app,{childList:true,subtree:true});showScreenId();}
 })();
