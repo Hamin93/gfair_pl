@@ -5,7 +5,7 @@
   const headers=table.cols.map(c=>String(c.label||c.id).replace(/\s/g,''));
   const missing=['화면ID','번호','항목명','요소유형','설명','기본값','필수여부'].filter(h=>!headers.includes(h));
   if(missing.length)throw Error('필수 열 누락: '+missing.join(', '));
-  const rows=table.rows.map(row=>Object.fromEntries(headers.map((name,i)=>[name,String(row.c[i]?.f??row.c[i]?.v??'')]))).filter(row=>row.화면ID.trim()===config.screen);
+  const rows=table.rows.map(row=>Object.fromEntries(headers.map((name,i)=>[name,String(row.c[i]?.f??row.c[i]?.v??'')]))).filter(row=>row.화면ID.trim()===config.screen&&row.표시범위?.trim()!=='참고');
   if(!rows.length)throw Error('화면요소 시트에 NTC-01 행을 추가해 주세요.');
   const numbers=new Set();return rows.map(row=>{
    const text=row.번호.trim(),number=Number(text);
