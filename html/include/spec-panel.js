@@ -2,10 +2,11 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=sb-toolbar-20261014-6',base);document.head.append(css);
- const specs=window.GFAIR_NOTICE_SPEC||[];
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=sb-sheet-20261014-1',base);document.head.append(css);
+ let specs=window.GFAIR_NOTICE_SPEC||[];
+ let sheetBusy=false,sheetRequested=false,sourceLabel='고정 Description · 시트 연결 준비 중';
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
- toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><select class="ui-spec-screen-picker" data-spec="screen" aria-label="목업 화면 선택"></select><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>검토 역할 <select aria-label="Description 검토 역할"></select></label><button type="button" data-spec="refresh">새로고침</button><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">전체보기</button><button type="button" data-spec="close">닫기</button><span class="ui-spec-status" role="status"></span></div>';
+ toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><select class="ui-spec-screen-picker" data-spec="screen" aria-label="목업 화면 선택"></select><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>검토 역할 <select aria-label="Description 검토 역할"></select></label><button type="button" data-spec="refresh">새로고침</button><a class="ui-spec-sheet-link" href="https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1462369663#gid=1462369663" target="_blank" rel="noopener">시트 수정하기 ↗</a><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">전체보기</button><button type="button" data-spec="close">닫기</button><span class="ui-spec-status" role="status"></span></div>';
  const screenPicker=toolbar.querySelector('[data-spec=screen]');
  (window.GFAIR_SCREENS||[]).forEach(group=>{
   const section=document.createElement('optgroup');section.label=group.name;
@@ -20,7 +21,7 @@
   panel.replaceChildren();
   if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';return;}
   const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
-  const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · 검토용 Description 초안 · 외부 시트 미연결';panel.append(intro);
+  const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · '+sourceLabel;panel.append(intro);
   const reference=document.createElement('a');reference.className='ui-spec-source';reference.textContent='작성 기준: 데모 Description · 화면요소';reference.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1462369663#gid=1462369663';reference.target='_blank';reference.rel='noopener';panel.append(reference);
   function table(title,headers,rows,card){
    const wrap=document.createElement('div');wrap.className='ui-spec-table';const element=document.createElement('table');
@@ -31,27 +32,33 @@
   const wrap=document.createElement("div");wrap.className="ui-spec-grid-wrap";
   const grid=document.createElement("table");grid.className="ui-spec-grid";
   const head=document.createElement("thead"),header=document.createElement("tr");
-  ["번호","항목명","요소 유형","설명","기본값","필수 여부","확정 여부"].forEach((name,index)=>{const th=document.createElement("th");th.scope="col";th.textContent=name;if([2,4,5,6].includes(index))th.className="ui-spec-meta-col";header.append(th);});head.append(header);grid.append(head);
+  ["번호","항목명","요소 유형","설명","기본값","필수 여부"].forEach((name,index)=>{const th=document.createElement("th");th.scope="col";th.textContent=name;if([2,4,5].includes(index))th.className="ui-spec-meta-col";header.append(th);});head.append(header);grid.append(head);
   const rows=document.createElement("tbody");
   specs.forEach(spec=>{
    const row=document.createElement("tr");row.id="notice-spec-"+spec.number;row.className="ui-spec-card";row.tabIndex=-1;
    const number=document.createElement("th");number.scope="row";number.textContent=String(spec.number).padStart(2,"0");
    const title=document.createElement("td");const strong=document.createElement("strong");strong.textContent=spec.title;title.append(strong);
    const inline=document.createElement("dl");inline.className="ui-spec-inline-meta";
-   [["유형",spec.type],["기본값",spec.defaultValue],["필수",spec.required],["확정",spec.status]].forEach(([key,value])=>{const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=key;dd.textContent=value;inline.append(dt,dd);});title.append(inline);
+   [["유형",spec.type],["기본값",spec.defaultValue],["필수",spec.required]].forEach(([key,value])=>{const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=key;dd.textContent=value;inline.append(dt,dd);});title.append(inline);
    const type=document.createElement("td");type.textContent=spec.type;type.className="ui-spec-meta-col";
    const description=document.createElement("td");description.className="ui-spec-description";const body=document.createElement("p");body.textContent=spec.description;description.append(body);
    if(spec.options){const options=document.createElement("p");options.textContent="선택 항목: "+spec.options.map(option=>option[0]).join(" / ");description.append(options);}
    (spec.tables||[]).forEach(section=>table(section.title,section.headers,section.rows,description));
    const note=document.createElement("p");note.className="ui-spec-note";note.textContent=spec.note;description.append(note);
    row.append(number,title,type,description);
-   [spec.defaultValue,spec.required,spec.status].forEach(value=>{const td=document.createElement("td");td.className="ui-spec-meta-col";td.textContent=value;row.append(td);});rows.append(row);
+   [spec.defaultValue,spec.required].forEach(value=>{const td=document.createElement("td");td.className="ui-spec-meta-col";td.textContent=value;row.append(td);});rows.append(row);
   });grid.append(rows);wrap.append(grid);panel.append(wrap);
   status.textContent='Description 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
+ async function refreshSheet(){
+  if(sheetBusy)return;sheetBusy=true;const refresh=toolbar.querySelector('[data-spec=refresh]');refresh.disabled=true;status.textContent='시트 명세를 불러오는 중…';
+  try{const next=await window.GFAIR_SPEC_SHEET.read();const scroll=panel.scrollTop;specs=next;sourceLabel='구글 시트 연결 · '+next.length+'개 항목';draw();panel.scrollTop=scroll;status.textContent='시트 반영 완료 · '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());}
+  catch(error){sourceLabel='이전 명세 유지 · '+error.message;const intro=panel.querySelector('.ui-spec-intro');if(intro)intro.textContent='NTC-01 · '+sourceLabel;status.textContent='갱신 실패 · 이전 명세 유지';}
+  finally{sheetBusy=false;refresh.disabled=false;}
+ }
  function sync(){
   const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;
-  const active=route==='NTC-01';toolbar.hidden=false;panel.hidden=closed;
+  const active=route==='NTC-01';toolbar.hidden=false;panel.hidden=closed;if(active&&!sheetRequested){sheetRequested=true;refreshSheet();}
   screenPicker.value=route;
   panel.setAttribute('aria-label','Description');toolbar.querySelector('[data-spec=numbers]').hidden=!active;
   layout.classList.toggle('with-spec',!closed);layout.classList.toggle('spec-full',!closed&&full);
@@ -64,13 +71,13 @@
   targets.forEach(([selector,id])=>{
    const target=app.querySelector(selector);if(!target)return;
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
-   if(active&&!closed&&numbers){if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=id;pin.setAttribute('aria-label','Description '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();panel.querySelectorAll('.ui-spec-card').forEach(c=>c.classList.remove('selected'));const card=document.getElementById('notice-spec-'+id);card.classList.add('selected');card.scrollIntoView({block:'nearest',behavior:'smooth'});card.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}}
+   if(active&&!closed&&numbers){if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=id;pin.setAttribute('aria-label','Description '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();panel.querySelectorAll('.ui-spec-card').forEach(c=>c.classList.remove('selected'));const card=document.getElementById('notice-spec-'+id);if(!card){status.textContent='시트에서 '+id+'번 명세를 확인해 주세요.';return;}card.classList.add('selected');card.scrollIntoView({block:'nearest',behavior:'smooth'});card.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}}
    else if(pin){pin.remove();target.classList.remove('ui-spec-marked');}
   });
  }
  toolbar.addEventListener('click',event=>{
   const action=event.target.dataset.spec;
-  if(action==='refresh')draw();
+  if(action==='refresh'){if((location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshSheet();else draw();}
   if(action==='numbers')numbers=!numbers;
   if(action==='full'){closed=false;full=!full;}
   if(action==='close'){closed=!closed;full=false;}
@@ -91,5 +98,5 @@
  });
  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&full){full=false;sync();}});
  new MutationObserver(sync).observe(app,{childList:true,subtree:true});
- window.addEventListener('hashchange',()=>{draw();sync();});setInterval(()=>{draw();sync();},60000);draw();sync();
+ window.addEventListener('hashchange',()=>{draw();sync();});setInterval(()=>{if((location.hash.slice(1)||document.body.dataset.screen)==='NTC-01'&&!document.hidden)refreshSheet();sync();},60000);draw();sync();
 })();
