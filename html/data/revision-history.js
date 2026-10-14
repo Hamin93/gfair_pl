@@ -1,4 +1,5 @@
 window.GFAIR_REVISION_HISTORY=[
+{"version":"v2.1","date":"2026.10.14","account":"Hamin93","summary":"수정 이력 팝업 닫기 버튼을 최상단 제목 옆으로 이동"},
   {
     "version": "v2.1",
     "date": "2026.10.14",
