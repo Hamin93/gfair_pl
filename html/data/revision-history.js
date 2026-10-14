@@ -1,5 +1,17 @@
+window.GFAIR_REVISION_ACCOUNT_NAMES={yulotsogreen:'shyu'};
 window.GFAIR_REVISION_HISTORY=[
-{"version":"v2.3","date":"2026.10.14","accountName":"mjha","summary":"저장소 Git 작성자 이름과 Description 수정 계정 Name을 mjha로 통일"},
+  {
+    "version": "v2.4",
+    "date": "2026.10.14",
+    "accountName": "mjha",
+    "summary": "공동작업자 yulotsogreen의 Description 표시 이름을 shyu로 매핑"
+  },
+  {
+    "version": "v2.3",
+    "date": "2026.10.14",
+    "accountName": "mjha",
+    "summary": "저장소 Git 작성자 이름과 Description 수정 계정 Name을 mjha로 통일"
+  },
   {
     "version": "v2.2",
     "date": "2026.10.14",
