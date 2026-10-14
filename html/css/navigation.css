@@ -5,3 +5,13 @@
 .screen-reference-button:hover{background:#555;border-color:#555;}
 .screen-reference-button:focus-visible{outline:2px solid #777;outline-offset:3px;}
 @media print{.screen-reference-button{background:#fff;color:#333;border-color:#777;}}
+/* 상단 기획 바를 제외한 화면 높이에 사이드 메뉴를 맞춘다. */
+@media(min-width:801px){
+.sidebar{top:var(--sb-toolbar-height,51px);height:calc(100dvh - var(--sb-toolbar-height,51px));overflow:visible;padding:16px 12px;gap:12px;align-self:start}
+.sidebar .caption{margin-top:0}.sidebar .profile{padding:8px 4px}.sidebar nav{gap:2px}
+.sidebar .nav-group>summary{padding:8px 10px;font-size:13px}.sidebar .nav-second summary{padding:6px 9px!important}
+.sidebar nav .nav-children a{padding:6px 9px}.sidebar .nav-children{margin-top:3px;margin-bottom:6px;gap:1px}
+.sidebar .nav-third{margin-bottom:4px;gap:1px}
+}
+@media(min-width:801px) and (max-height:750px){.sidebar{padding:10px;gap:7px}.sidebar .brand{font-size:1.5rem}.sidebar .nav-group>summary{padding:5px 9px}.sidebar nav .nav-children a,.sidebar .nav-second summary{padding:4px 8px!important}.sidebar .profile{font-size:12px}.sidebar .caption{font-size:11px}}
+@media(max-width:800px){.sidebar{height:auto;max-height:none;overflow:visible}}
