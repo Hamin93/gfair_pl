@@ -27,3 +27,7 @@
 #app table.survey-action-list .row{flex-wrap:nowrap;justify-content:center;gap:6px}
 #app table.survey-action-list td:nth-child(4) .btn{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;text-align:left}
 #app table.survey-action-list td:not(:nth-child(4)){white-space:nowrap}
+/* 목록 데이터·상태 13px, 목록 내 버튼 12px */
+#app .tablewrap table,#app table.survey-action-list{font-size:13px}
+#app .tablewrap tbody .badge{font-size:13px}
+#app .tablewrap tbody .btn,#app table.survey-action-list .btn{font-size:12px}
