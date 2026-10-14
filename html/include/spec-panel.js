@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-spec-3',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-spec-4',base);document.head.append(css);
  const specs=window.GFAIR_NOTICE_SPEC||[];
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
  toolbar.innerHTML='<strong>WITH / UI SPEC</strong><label>검토 역할 <select aria-label="명세 검토 역할"></select></label><button type="button" data-spec="refresh">명세 새로고침</button><label><input type="checkbox" data-spec="auto"> 자동 갱신</label><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">명세 전체보기</button><button type="button" data-spec="close">개발 명세 닫기</button><span class="ui-spec-status" role="status"></span>';
@@ -21,16 +21,25 @@
    const head=document.createElement('thead'),row=document.createElement('tr');headers.forEach(text=>{const th=document.createElement('th');th.scope='col';th.textContent=text;row.append(th);});head.append(row);element.append(head);
    const body=document.createElement('tbody');rows.forEach(values=>{const tr=document.createElement('tr');values.forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.append(td);});body.append(tr);});element.append(body);wrap.append(element);card.append(wrap);
   }
-  specs.forEach((spec,i)=>{
-   const card=document.createElement('details');card.id='notice-spec-'+spec.number;card.className='ui-spec-card';card.open=i===0;
-   const summary=document.createElement('summary');summary.textContent=String(spec.number).padStart(2,'0')+' '+spec.title;
-   const meta=document.createElement('dl');meta.className='ui-spec-meta';
-   [['요소 유형',spec.type],['기본값',spec.defaultValue],['필수 여부',spec.required],['확정 여부',spec.status]].forEach(([key,value])=>{const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=key;dd.textContent=value;meta.append(dt,dd);});
-   const body=document.createElement('p');body.textContent=spec.description;card.append(summary,meta,body);
-   if(spec.options)table('선택 옵션 · 개발값은 제안', ['표시명','개발값','조건·설명'],spec.options,card);
-   (spec.tables||[]).forEach(section=>table(section.title,section.headers,section.rows,card));
-   const foot=document.createElement('p');foot.className='ui-spec-note';foot.textContent=spec.note;card.append(foot);panel.append(card);
-  });
+  const wrap=document.createElement("div");wrap.className="ui-spec-grid-wrap";
+  const grid=document.createElement("table");grid.className="ui-spec-grid";
+  const head=document.createElement("thead"),header=document.createElement("tr");
+  ["번호","항목명","요소 유형","설명","기본값","필수 여부","확정 여부"].forEach((name,index)=>{const th=document.createElement("th");th.scope="col";th.textContent=name;if([2,4,5,6].includes(index))th.className="ui-spec-meta-col";header.append(th);});head.append(header);grid.append(head);
+  const rows=document.createElement("tbody");
+  specs.forEach(spec=>{
+   const row=document.createElement("tr");row.id="notice-spec-"+spec.number;row.className="ui-spec-card";row.tabIndex=-1;
+   const number=document.createElement("th");number.scope="row";number.textContent=String(spec.number).padStart(2,"0");
+   const title=document.createElement("td");const strong=document.createElement("strong");strong.textContent=spec.title;title.append(strong);
+   const inline=document.createElement("dl");inline.className="ui-spec-inline-meta";
+   [["유형",spec.type],["기본값",spec.defaultValue],["필수",spec.required],["확정",spec.status]].forEach(([key,value])=>{const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=key;dd.textContent=value;inline.append(dt,dd);});title.append(inline);
+   const type=document.createElement("td");type.textContent=spec.type;type.className="ui-spec-meta-col";
+   const description=document.createElement("td");description.className="ui-spec-description";const body=document.createElement("p");body.textContent=spec.description;description.append(body);
+   if(spec.options){const options=document.createElement("p");options.textContent="선택 항목: "+spec.options.map(option=>option[0]).join(" / ");description.append(options);}
+   (spec.tables||[]).forEach(section=>table(section.title,section.headers,section.rows,description));
+   const note=document.createElement("p");note.className="ui-spec-note";note.textContent=spec.note;description.append(note);
+   row.append(number,title,type,description);
+   [spec.defaultValue,spec.required,spec.status].forEach(value=>{const td=document.createElement("td");td.className="ui-spec-meta-col";td.textContent=value;row.append(td);});rows.append(row);
+  });grid.append(rows);wrap.append(grid);panel.append(wrap);
   status.textContent='명세 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
  function sync(){
@@ -46,7 +55,7 @@
   targets.forEach(([selector,id])=>{
    const target=app.querySelector(selector);if(!target)return;
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
-   if(active&&!closed&&numbers){if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=id;pin.setAttribute('aria-label','개발 명세 '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();panel.querySelectorAll('.ui-spec-card').forEach(c=>c.classList.remove('selected'));const card=document.getElementById('notice-spec-'+id);card.open=true;card.classList.add('selected');card.scrollIntoView({block:'nearest',behavior:'smooth'});card.querySelector('summary').focus();});target.classList.add('ui-spec-marked');target.append(pin);}}
+   if(active&&!closed&&numbers){if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=id;pin.setAttribute('aria-label','개발 명세 '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();panel.querySelectorAll('.ui-spec-card').forEach(c=>c.classList.remove('selected'));const card=document.getElementById('notice-spec-'+id);card.classList.add('selected');card.scrollIntoView({block:'nearest',behavior:'smooth'});card.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}}
    else if(pin){pin.remove();target.classList.remove('ui-spec-marked');}
   });
  }
