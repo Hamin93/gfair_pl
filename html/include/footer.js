@@ -31,3 +31,6 @@ window.GFAIR_INCLUDE.footer=()=>'<footer class="footer"><span>G-FAIR KOREA 구�
  };
  if(app){new MutationObserver(showScreenId).observe(app,{childList:true,subtree:true});showScreenId();}
 })();
+
+// 상대 경로로 공지사항 개발 명세 패널을 불러온다.
+(()=>{const script=document.createElement('script');script.src=new URL('spec-panel.js?v=notice-spec-1',document.currentScript.src).href;document.head.append(script);})();
