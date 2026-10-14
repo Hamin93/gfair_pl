@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=release3-final-20261014',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=release-history-format-20261014',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
  let sheetBusy=false,sheetRequested=false,sourceLabel="시트 연결 준비 중";
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;

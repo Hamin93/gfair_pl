@@ -52,5 +52,26 @@ window.GFAIR_REVISION_HISTORY=[
     "date": "2026.10.14",
     "summary": "화면검색 페이지의 실제 목업 GNB 제거",
     "accountName": "mjha"
+  },
+  {
+    "version": "v2.0",
+    "fromVersion": "v1.0",
+    "release": true,
+    "screenId": "NTC-01",
+    "date": "2026.10.14",
+    "accountName": "mjha",
+    "summary": "공지사항 검색 조건 및 목록·상세·등록·수정 구성 정리",
+    "changes": [
+      "검색 조건을 행사·대상·제목·게시 상태로 구성.",
+      "공지 제목 클릭으로 상세 진입, 관리자 등록·수정 흐름과 목록 중앙 페이지네이션 적용."
+    ]
+  },
+  {
+    "version": "v1.0",
+    "release": true,
+    "screenId": "NTC-01",
+    "date": "2026.10.14",
+    "accountName": "mjha",
+    "summary": "공지사항 신규 화면 작업 완료"
   }
 ];
