@@ -1,5 +1,11 @@
-window.GFAIR_REVISION_ACCOUNT_NAMES={yulotsogreen:'shyu'};
+window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+  {
+    "version": "v3.1",
+    "date": "2026.10.14",
+    "accountName": "mjha",
+    "summary": "목업 목록 기본 가운데 정렬, 긴 텍스트 왼쪽 정렬 및 열 제목 가운데 정렬 적용"
+  },
   {
     "version": "v3.0",
     "fromVersion": "v2.0",
