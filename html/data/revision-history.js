@@ -1,6 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
- {"version":"v4.2","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"구글 시트 연동 해제 및 상세 명세를 항목 정보·옵션·상태·버튼 표로 정리"},
+ {"version":"v5.0","fromVersion":"v4.0","release":true,"screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"공지사항 고정 명세와 유형별 상세 표 전달","changes":["구글 시트 연동 해제, 명세를 프로젝트 고정 데이터로 관리.","개요 6열 표와 12개 항목 보존.","상세 항목 정보는 요소 유형·기본값·필수여부·상세 설명으로 구성하고 입력 정책을 함께 표시.","드롭다운 옵션, 상태 정의·전환, 버튼 동작을 각각 표로 표시. 별도 권한 설명 영역 제거."],"note":"실제 화면 표시 및 시트 요청 제거 확인 완료."},
  {"version":"v4.1","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"12번을 페이지당 보기 개수로 정정하고 13~15 참고 정책을 본문 번호에서 제외"},
   {"version":"v4.0","fromVersion":"v3.0","release":true,"screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"공지사항 Description 탭과 시트 상세 명세 전달","changes":["개요는 번호·항목명·요소 유형·설명·기본값·필수여부 6열 요약 표로 표시.","01~15 상세 탭에 화면 구성, 권한, 상태, 처리, 예외를 표시하고 좌측 붉은 번호와 양방향 연결.","구글 시트의 기존 상세 설명과 데모 행을 보존하고 K~O에 개요설명·권한·상태·처리·예외 열 추가.","시트 갱신 후 선택 탭과 검색 입력 유지, 키보드 이동과 모바일 표시 확인."],"note":"명세의 권한·상태·처리는 실제 서비스 설계 설명이며 미정 정책은 협의 필요로 유지한다."},
   {
