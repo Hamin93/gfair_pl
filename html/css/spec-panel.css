@@ -71,3 +71,5 @@
 .ui-spec-pin[data-spec-number='13']{top:auto;bottom:4px;right:4px}
 
 .ui-spec-marked{scroll-margin-top:calc(var(--sb-toolbar-height,51px) + 20px)}
+
+.ui-spec-control-anchor{display:inline-flex;position:relative}.ui-spec-control-anchor>.ui-spec-pin[data-spec-number]{left:-10px;right:auto;top:-12px}
