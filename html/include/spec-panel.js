@@ -3,7 +3,8 @@
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
  const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=sb-table-20261014-3',base);document.head.append(css);
- const specs=window.GFAIR_NOTICE_SPEC||[];
+ let specs=window.GFAIR_NOTICE_SPEC||[];
+ let sheetBusy=false,sheetRequested=false,sourceLabel="시트 연결 준비 중";
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
  toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><select class="ui-spec-screen-picker" data-spec="screen" aria-label="목업 화면 선택"></select><button type="button" data-spec="screen-search">화면검색</button><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>사용구분 <select aria-label="사용구분"></select></label><button type="button" data-spec="refresh">새로고침</button><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">전체보기</button><button type="button" data-spec="close">닫기</button><span class="ui-spec-status" role="status"></span></div>';
  const screenPicker=toolbar.querySelector('[data-spec=screen]');
@@ -33,7 +34,7 @@
   const version=document.createElement('footer');version.className='ui-spec-version';const revisionButton=document.createElement('button');revisionButton.type='button';const latest=(window.GFAIR_REVISION_HISTORY||[])[0];revisionButton.textContent=latest?'HTML '+latest.version+' · '+latest.date+' / '+revisionAccountName(latest):'수정 이력';revisionButton.title='수정 이력 보기';revisionButton.addEventListener('click',showHistory);version.append(revisionButton);
   if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';panel.append(version);return;}
   const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
-  const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · 검토용 Description 초안 · 외부 시트 미연결';panel.append(intro);
+  const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · '+sourceLabel;panel.append(intro);
   const reference=document.createElement('a');reference.className='ui-spec-source';reference.textContent='작성 기준: 데모 Description · 화면요소';reference.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1462369663#gid=1462369663';reference.target='_blank';reference.rel='noopener';panel.append(reference);
   function table(title,headers,rows,card){
    const wrap=document.createElement('div');wrap.className='ui-spec-table';const element=document.createElement('table');
@@ -60,9 +61,20 @@
   });grid.append(rows);wrap.append(grid);panel.append(wrap);panel.prepend(version);
   status.textContent='Description 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
+ async function refreshSheet(){
+  if(sheetBusy)return;
+  sheetBusy=true;const button=toolbar.querySelector('[data-spec=refresh]');button.disabled=true;status.textContent='시트 명세를 불러오는 중…';
+  try{
+   const next=await window.GFAIR_SPEC_SHEET.read();
+   const route=location.hash.slice(1)||document.body.dataset.screen;
+   const scroll=panel.scrollTop;specs=next;sourceLabel='구글 시트 연결 · '+next.length+'개 항목';
+   if(route==='NTC-01'){draw();panel.scrollTop=scroll;status.textContent='시트 반영 완료 · '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());}
+  }catch(error){sourceLabel='이전 명세 유지 · '+error.message;const intro=panel.querySelector('.ui-spec-intro');if(intro)intro.textContent='NTC-01 · '+sourceLabel;status.textContent='갱신 실패 · 이전 명세 유지';}
+  finally{sheetBusy=false;button.disabled=false;}
+ }
  function sync(){
   const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;
-  const active=route==='NTC-01',overview=route==='screens';toolbar.hidden=false;panel.hidden=closed||overview;
+  const active=route==='NTC-01',overview=route==='screens';if(active&&!sheetRequested){sheetRequested=true;refreshSheet();}toolbar.hidden=false;panel.hidden=closed||overview;
   ['refresh','numbers','full','close'].forEach(action=>{toolbar.querySelector('[data-spec='+action+']').hidden=overview||(action==='numbers'&&!active);});status.hidden=overview;
   screenPicker.value=route;
   panel.setAttribute('aria-label','Description');toolbar.querySelector('[data-spec=numbers]').hidden=overview||!active;
@@ -76,14 +88,14 @@
   targets.forEach(([selector,id])=>{
    const target=app.querySelector(selector);if(!target)return;
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
-   if(active&&!closed&&numbers){if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=id;pin.setAttribute('aria-label','Description '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();panel.querySelectorAll('.ui-spec-card').forEach(c=>c.classList.remove('selected'));const card=document.getElementById('notice-spec-'+id);card.classList.add('selected');card.scrollIntoView({block:'nearest',behavior:'smooth'});card.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}}
+   if(active&&!closed&&numbers){if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=id;pin.setAttribute('aria-label','Description '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();panel.querySelectorAll('.ui-spec-card').forEach(c=>c.classList.remove('selected'));const card=document.getElementById('notice-spec-'+id);if(!card){status.textContent='시트에서 '+id+'번 항목을 확인해 주세요.';return;}card.classList.add('selected');card.scrollIntoView({block:'nearest',behavior:'smooth'});card.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}}
    else if(pin){pin.remove();target.classList.remove('ui-spec-marked');}
   });
  }
  toolbar.addEventListener('click',event=>{
   const action=event.target.dataset.spec;
   if(action==='screen-search'){closed=false;full=false;location.hash='screens';}
-  if(action==='refresh')draw();
+  if(action==='refresh'){closed=false;if((location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshSheet();else draw();}
   if(action==='numbers')numbers=!numbers;
   if(action==='full'){closed=false;full=!full;}
   if(action==='close'){closed=!closed;full=false;}
@@ -105,5 +117,5 @@
  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&full){full=false;sync();}});
  new MutationObserver(sync).observe(app,{childList:true,subtree:true});
  window.addEventListener('revision-history-loaded',draw);
- window.addEventListener('hashchange',()=>{draw();sync();});setInterval(()=>{draw();sync();},60000);draw();sync();
+ window.addEventListener('hashchange',()=>{draw();sync();});setInterval(()=>{if(!document.hidden&&(location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshSheet();sync();},60000);draw();sync();
 })();

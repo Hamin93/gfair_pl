@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={yulotsogreen:'shyu'};
 window.GFAIR_REVISION_HISTORY=[
+  {"version":"v2.6","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"공지사항 구글 시트 연동 복구, 5열 표 및 기존 공동작업 UI 유지"},
   {"version":"v2.5","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"공지사항 Description을 번호·항목명·요소 유형·설명·기본값 5열 표로 정리"},
   {
     "version": "v2.4",

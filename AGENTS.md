@@ -97,3 +97,4 @@
 - `화면검색` 페이지에는 실제 화면 목업의 GNB를 표시하지 않는다. 검정 상단 공통 기획 영역과 전체 화면 검색·목록만 표시한다.
 
 - 공동작업자 `yulotsogreen`의 Description 표시 이름은 `shyu`로 지정한다. `html/data/revision-history.js`의 `GFAIR_REVISION_ACCOUNT_NAMES`에서 매핑을 관리하며, 해당 작업자의 새 이력은 실제 계정을 `account: "yulotsogreen"`으로 기록한다. Git 작성자·계정·기존 커밋은 이 표시 이름 때문에 변경하지 않는다.
+- NTC-01 Description은 구글 시트 화면요소 탭의 NTC-01 행과 연동한다. 과거 화면 복원 시에도 sheet-spec.js 및 footer.js·spec-panel.js의 로딩·갱신 코드를 보존한다. 연동 제거는 사용자 요청이 있을 때만 수행한다.
