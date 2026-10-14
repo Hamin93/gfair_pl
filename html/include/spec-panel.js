@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-tabs-20261014-2',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-tabs-20261014-3',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
  let sheetBusy=false,sheetRequested=false,sourceLabel="시트 연결 준비 중";
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
@@ -108,7 +108,11 @@
   toolbar.querySelector('[data-spec=numbers]').textContent=numbers?'번호 숨기기':'번호 표시';
   const role=document.getElementById('role-picker'),select=toolbar.querySelector('.ui-spec-actions select');
   if(role){if(!select.options.length)select.innerHTML=role.innerHTML;select.value=role.value;}
-  const targets=[['#filter-form > .field:nth-child(1)',1],['#filter-form > .field:nth-child(2)',2],['#filter-form > .field:nth-child(3)',3],['#filter-form > .field:nth-child(4)',4],['#filter-form .row',5],['#filter-form .row',6],['.notice-panel .panelhead h2',7],['.head-actions:has([data-notice-action=create])',8],['.notice-list .notice-title-column',9],['.head-actions:has(a[href="#NTC-05"])',10],['.notice-list thead th:last-child',11],['.notice-panel .panelhead',12],['.notice-panel .tablewrap',13],['.pagehead:has([data-notice-action=create])',14],['.pagehead:has(a[href="#NTC-05"])',15]];
+  app.querySelectorAll('#filter-form button[type=submit],#filter-form button[data-notice-action=reset]').forEach(button=>{
+   if(button.parentElement.classList.contains('ui-spec-control-anchor'))return;
+   const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';anchor.dataset.control=button.type==='submit'?'search':'reset';button.before(anchor);anchor.append(button);
+  });
+  const targets=[['#filter-form > .field:nth-child(1)',1],['#filter-form > .field:nth-child(2)',2],['#filter-form > .field:nth-child(3)',3],['#filter-form > .field:nth-child(4)',4],['.ui-spec-control-anchor[data-control=search]',5],['.ui-spec-control-anchor[data-control=reset]',6],['.notice-panel .panelhead h2',7],['.head-actions:has([data-notice-action=create])',8],['.notice-list .notice-title-column',9],['.head-actions:has(a[href="#NTC-05"])',10],['.notice-list thead th:last-child',11],['.notice-panel .panelhead',12],['.notice-panel .tablewrap',13],['.pagehead:has([data-notice-action=create])',14],['.pagehead:has(a[href="#NTC-05"])',15]];
   targets.forEach(([selector,id])=>{
    const target=app.querySelector(selector);if(!target)return;
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
@@ -120,6 +124,8 @@
  }
  function openTab(id,scroll=true){
   selectedTab=id;closed=false;numbers=true;draw();panel.scrollTop=0;sync();
+  app.querySelectorAll(".ui-spec-range-selected").forEach(element=>element.classList.remove("ui-spec-range-selected"));
+  app.querySelector(".ui-spec-pin.selected")?.parentElement.classList.add("ui-spec-range-selected");
   if(scroll&&!full&&matchMedia("(min-width:1101px)").matches){const pin=app.querySelector('.ui-spec-pin[data-spec-number="'+id+'"]');pin?.parentElement.scrollIntoView({block:'nearest',behavior:'smooth'});}
  }
  toolbar.addEventListener('click',event=>{
