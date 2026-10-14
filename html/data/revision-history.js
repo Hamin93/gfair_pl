@@ -1,6 +1,13 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
   {
+    "version": "v0.1",
+    "screenId": "SET-05",
+    "date": "2026.10.14",
+    "accountName": "mjha",
+    "summary": "설문 목록의 제목 열 확대, 버튼 한 줄 배치 및 표 글자 2px 축소"
+  },
+  {
     "version": "v3.1",
     "date": "2026.10.14",
     "accountName": "mjha",
