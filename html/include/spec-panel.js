@@ -2,9 +2,9 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-scope-20261014',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-grouped-20261014',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
- let sheetBusy=false,sheetRequested=false,sourceLabel="시트 연결 준비 중";
+ const sourceLabel="프로젝트 고정 명세 · 12개 항목";
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
  toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><select class="ui-spec-screen-picker" data-spec="screen" aria-label="목업 화면 선택"></select><button type="button" data-spec="screen-search">화면검색</button><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>사용구분 <select aria-label="사용구분"></select></label><button type="button" data-spec="refresh">새로고침</button><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">전체보기</button><button type="button" data-spec="close">닫기</button><span class="ui-spec-status" role="status"></span></div>';
  const screenPicker=toolbar.querySelector('[data-spec=screen]');
@@ -38,7 +38,6 @@
   if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';panel.append(version);return;}
   const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
   const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · '+sourceLabel;panel.append(intro);
-  const reference=document.createElement('a');reference.className='ui-spec-source';reference.textContent='연결 시트 · 화면요소 수정하기 ↗';reference.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1462369663#gid=1462369663';reference.target='_blank';reference.rel='noopener';panel.append(reference);
   function table(title,headers,rows,card){
    const wrap=document.createElement('div');wrap.className='ui-spec-table';const element=document.createElement('table');
    const caption=document.createElement('caption');caption.textContent=title;element.append(caption);
@@ -52,6 +51,7 @@
    button.addEventListener('click',()=>openTab(spec.number));tabs.append(button);
   });panel.append(tabs);
   tabs.addEventListener('keydown',event=>{
+   if(event.ctrlKey||event.metaKey||event.altKey)return;
    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();
    const items=[0,...specs.map(spec=>spec.number)],index=items.indexOf(selectedTab);
    const next=event.key==='Home'?0:event.key==='End'?items.length-1:(index+(event.key==='ArrowRight'?1:-1)+items.length)%items.length;
@@ -69,36 +69,19 @@
    });grid.append(body);wrap.append(grid);content.append(wrap);
   }else{
    const spec=specs.find(item=>item.number===selectedTab);const title=document.createElement('h3');title.textContent=String(spec.number).padStart(2,'0')+' · '+spec.title;content.append(title);
-   table('항목 정보',['요소 유형','기본값','필수여부','확정여부'],[[spec.type,spec.defaultValue,spec.required,spec.status||'작성중']],content);
-   const section=document.createElement('section');section.className='ui-spec-detail';const heading=document.createElement('h4');heading.textContent='화면 구성 · 상세 설명';const text=document.createElement('p');text.textContent=spec.description;section.append(heading,text);content.append(section);
-   function conditions(title,value){
-    if(!value){const p=document.createElement('p');p.className='ui-spec-detail-empty';p.textContent=title+' 명세가 비어 있습니다. 시트에서 작성해 주세요.';content.append(p);return;}
-    const rows=value.split('\n').filter(line=>line.trim()).map(line=>{const at=line.indexOf(':');return at<0?['조건',line]:[line.slice(0,at),line.slice(at+1).trim()];});table(title,['구분','조건 · 설명'],rows,content);
-   }
-   conditions('권한 · 누가 접근하고 처리하는가',spec.permission);
-   conditions('상태 · 값과 전환 조건',spec.state);
-   conditions('처리 · 입력 검증과 결과',spec.processing);
-   conditions('예외 · 구현 범위와 협의 사항',spec.exception);
+   table('항목 정보',['요소 유형','기본값','필수여부','상세 설명'],[[spec.type,spec.defaultValue,spec.required,spec.description]],content);
+   content.querySelector('.ui-spec-table').classList.add('ui-spec-item-info');
+   (spec.detailTables||[]).forEach(section=>table(section.title,section.headers,section.rows,content));
    const hint=document.createElement('p');hint.className='ui-spec-link-hint';hint.textContent=spec.number>=14?'연결 화면의 개발 조건입니다. 좌측 관련 진입 영역에 같은 번호를 표시합니다.':'탭 선택과 좌측 붉은 번호가 연결됩니다. 현재 역할에서 숨겨진 요소는 표시되지 않을 수 있습니다.';content.append(hint);
   }
   panel.append(content);panel.prepend(version);
-  const foot=document.createElement('p');foot.className='ui-spec-link-hint';foot.textContent='시트의 화면요소 탭을 수정한 뒤 새로고침하면 개요와 상세 설명이 갱신됩니다. 상태·권한·처리는 개발 명세이며 실제 서비스 권한을 변경하지 않습니다.';panel.append(foot);
+  const foot=document.createElement('p');foot.className='ui-spec-link-hint';foot.textContent='명세는 프로젝트의 고정 데이터로 관리합니다. 새로고침은 현재 명세 표시를 갱신하며 목업 입력값은 유지합니다.';panel.append(foot);
   status.textContent='Description 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
- async function refreshSheet(){
-  if(sheetBusy)return;
-  sheetBusy=true;const button=toolbar.querySelector('[data-spec=refresh]');button.disabled=true;status.textContent='시트 명세를 불러오는 중…';
-  try{
-   const next=await window.GFAIR_SPEC_SHEET.read();
-   const route=location.hash.slice(1)||document.body.dataset.screen;
-   const scroll=panel.scrollTop;specs=next;sourceLabel='구글 시트 연결 · '+next.length+'개 항목';
-   if(route==='NTC-01'){draw();panel.scrollTop=scroll;status.textContent='시트 반영 완료 · '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());}
-  }catch(error){sourceLabel='이전 명세 유지 · '+error.message;const intro=panel.querySelector('.ui-spec-intro');if(intro)intro.textContent='NTC-01 · '+sourceLabel;status.textContent='갱신 실패 · 이전 명세 유지';}
-  finally{sheetBusy=false;button.disabled=false;}
- }
+ function refreshDescription(){const scroll=panel.scrollTop;draw();panel.scrollTop=scroll;}
  function sync(){
   const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;
-  const active=route==='NTC-01',overview=route==='screens';if(active&&!sheetRequested){sheetRequested=true;refreshSheet();}toolbar.hidden=false;panel.hidden=closed||overview;
+  const active=route==='NTC-01',overview=route==='screens';toolbar.hidden=false;panel.hidden=closed||overview;
   ['refresh','numbers','full','close'].forEach(action=>{toolbar.querySelector('[data-spec='+action+']').hidden=overview||(action==='numbers'&&!active);});status.hidden=overview;
   screenPicker.value=route;
   panel.setAttribute('aria-label','Description');toolbar.querySelector('[data-spec=numbers]').hidden=overview||!active;
@@ -131,7 +114,7 @@
  toolbar.addEventListener('click',event=>{
   const action=event.target.dataset.spec;
   if(action==='screen-search'){closed=false;full=false;location.hash='screens';}
-  if(action==='refresh'){closed=false;if((location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshSheet();else draw();}
+  if(action==='refresh'){closed=false;if((location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshDescription();else draw();}
   if(action==='numbers')numbers=!numbers;
   if(action==='full'){closed=false;full=!full;}
   if(action==='close'){closed=!closed;full=false;}
@@ -153,5 +136,5 @@
  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&full){full=false;sync();}});
  new MutationObserver(sync).observe(app,{childList:true,subtree:true});
  window.addEventListener('revision-history-loaded',draw);
- window.addEventListener('hashchange',()=>{selectedTab=0;draw();sync();});setInterval(()=>{if(!document.hidden&&(location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshSheet();sync();},60000);draw();sync();
+ window.addEventListener('hashchange',()=>{selectedTab=0;draw();sync();});setInterval(()=>{if(!document.hidden&&(location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshDescription();sync();},60000);draw();sync();
 })();

@@ -73,3 +73,5 @@
 .ui-spec-marked{scroll-margin-top:calc(var(--sb-toolbar-height,51px) + 20px)}
 
 .ui-spec-control-anchor{display:inline-flex;position:relative}.ui-spec-control-anchor>.ui-spec-pin[data-spec-number]{left:-10px;right:auto;top:-12px}
+
+.ui-spec-item-info table{table-layout:fixed!important;min-width:550px!important}.ui-spec-item-info th:nth-child(1){width:95px}.ui-spec-item-info th:nth-child(2){width:85px}.ui-spec-item-info th:nth-child(3){width:65px}.ui-spec-item-info td:first-child{width:auto!important}.ui-spec-tab-body .ui-spec-table{padding:16px 0 8px;border-bottom:1px solid #ddd;margin-bottom:18px}.ui-spec-tab-body .ui-spec-table caption{font-weight:700;font-size:14px}.ui-spec-tab-body .ui-spec-table td{line-height:1.8}
