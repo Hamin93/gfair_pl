@@ -18,3 +18,4 @@
 .ui-spec-toolbar .ui-spec-status,.ui-spec-toolbar .ui-spec-preview{color:#bbb}
 .ui-spec-toolbar button:focus-visible,.ui-spec-toolbar select:focus-visible{outline:2px solid #eee;outline-offset:3px}
 /* Description과 연결된 숫자 라벨 */.ui-spec-pin{background:#c62828;color:#fff;box-shadow:0 0 0 1px #c62828}
+.ui-spec-version{margin-top:24px;padding-top:12px;border-top:1px solid #ddd;text-align:right;color:#888;font-size:11px}.ui-spec-panel:has(>.ui-spec-version:only-child){min-height:calc(100vh - 51px);display:flex;flex-direction:column}.ui-spec-panel>.ui-spec-version:only-child{margin-top:auto}

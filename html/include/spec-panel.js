@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=sb-screen-tools-20261014-2',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=sb-footer-20261014',base);document.head.append(css);
  const specs=window.GFAIR_NOTICE_SPEC||[];
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
  toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><select class="ui-spec-screen-picker" data-spec="screen" aria-label="목업 화면 선택"></select><button type="button" data-spec="screen-search">화면검색</button><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>사용구분 <select aria-label="사용구분"></select></label><button type="button" data-spec="refresh">새로고침</button><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">전체보기</button><button type="button" data-spec="close">닫기</button><span class="ui-spec-status" role="status"></span></div>';
@@ -20,7 +20,8 @@
  const status=toolbar.querySelector('.ui-spec-status');
  function draw(){
   panel.replaceChildren();
-  if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';return;}
+  const version=document.createElement('footer');version.className='ui-spec-version';version.textContent='HTML v2.0 · 2026.10.08 · with';
+  if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';panel.append(version);return;}
   const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
   const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · 검토용 Description 초안 · 외부 시트 미연결';panel.append(intro);
   const reference=document.createElement('a');reference.className='ui-spec-source';reference.textContent='작성 기준: 데모 Description · 화면요소';reference.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1462369663#gid=1462369663';reference.target='_blank';reference.rel='noopener';panel.append(reference);
@@ -48,7 +49,7 @@
    const note=document.createElement("p");note.className="ui-spec-note";note.textContent=spec.note;description.append(note);
    row.append(number,title,type,description);
    [spec.defaultValue,spec.required,spec.status].forEach(value=>{const td=document.createElement("td");td.className="ui-spec-meta-col";td.textContent=value;row.append(td);});rows.append(row);
-  });grid.append(rows);wrap.append(grid);panel.append(wrap);
+  });grid.append(rows);wrap.append(grid);panel.append(wrap,version);
   status.textContent='Description 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
  function sync(){
