@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-tabs-20261014',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-tabs-20261014-2',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
  let sheetBusy=false,sheetRequested=false,sourceLabel="시트 연결 준비 중";
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
@@ -38,7 +38,7 @@
   if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';panel.append(version);return;}
   const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
   const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · '+sourceLabel;panel.append(intro);
-  const reference=document.createElement('a');reference.className='ui-spec-source';reference.textContent='작성 기준: 데모 Description · 화면요소';reference.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1462369663#gid=1462369663';reference.target='_blank';reference.rel='noopener';panel.append(reference);
+  const reference=document.createElement('a');reference.className='ui-spec-source';reference.textContent='연결 시트 · 화면요소 수정하기 ↗';reference.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1462369663#gid=1462369663';reference.target='_blank';reference.rel='noopener';panel.append(reference);
   function table(title,headers,rows,card){
    const wrap=document.createElement('div');wrap.className='ui-spec-table';const element=document.createElement('table');
    const caption=document.createElement('caption');caption.textContent=title;element.append(caption);
@@ -119,8 +119,8 @@
   });
  }
  function openTab(id,scroll=true){
-  selectedTab=id;closed=false;numbers=true;draw();sync();
-  if(scroll&&!full){const pin=app.querySelector('.ui-spec-pin[data-spec-number="'+id+'"]');pin?.scrollIntoView({block:'nearest',behavior:'smooth'});}
+  selectedTab=id;closed=false;numbers=true;draw();panel.scrollTop=0;sync();
+  if(scroll&&!full&&matchMedia("(min-width:1101px)").matches){const pin=app.querySelector('.ui-spec-pin[data-spec-number="'+id+'"]');pin?.parentElement.scrollIntoView({block:'nearest',behavior:'smooth'});}
  }
  toolbar.addEventListener('click',event=>{
   const action=event.target.dataset.spec;

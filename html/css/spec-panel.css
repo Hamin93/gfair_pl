@@ -66,3 +66,8 @@
 .ui-spec-pin[data-spec-number='9'],.ui-spec-pin[data-spec-number='11']{right:3px;top:3px}
 .ui-spec-marked:has(>.ui-spec-pin[data-spec-number='9']),.ui-spec-marked:has(>.ui-spec-pin[data-spec-number='11']){padding-right:30px}
 @media print{.ui-spec-tabs{display:none}}
+
+.ui-spec-pin[data-spec-number='5']{left:auto;right:100px;top:-12px}.ui-spec-pin[data-spec-number='6']{left:auto;right:12px;top:-12px}
+.ui-spec-pin[data-spec-number='13']{top:auto;bottom:4px;right:4px}
+
+.ui-spec-marked{scroll-margin-top:calc(var(--sb-toolbar-height,51px) + 20px)}
