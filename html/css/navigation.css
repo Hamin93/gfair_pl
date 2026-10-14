@@ -1,1 +1,4 @@
 .nav-third{margin:4px 0 8px 12px;padding-left:12px;border-left:1px solid #5c5c5c;display:grid;gap:3px}.nav-second summary{font-size:.8125rem!important;padding:10px 11px!important;font-weight:400!important}.nav-third a{font-size:.78rem!important}.nav-third a.active{background:#4e4e4e}.nav-children>a,.nav-children>details{min-width:0}.breadcrumb{display:flex;gap:8px;flex-wrap:wrap}.user-nav-note{font-size:12px;color:#b0b0b0;padding:12px}.sidebar .nav-children a{word-break:keep-all}.tag-filter{margin-top:10px}.sync-info{font-size:13px;color:var(--muted)}
+/* 목업 검토용 화면 식별 정보 */
+.screen-reference{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);text-align:right;font:12px/1.5 Consolas,'Malgun Gothic',monospace;color:var(--muted);letter-spacing:0;}
+@media print{.screen-reference{color:#666;}}
