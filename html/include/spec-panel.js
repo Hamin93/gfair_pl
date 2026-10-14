@@ -25,7 +25,7 @@
   modal.replaceChildren();const heading=document.createElement('h2');heading.textContent='화면 / Description 수정 이력';modal.append(heading);
   const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;
   const releases=(window.GFAIR_REVISION_HISTORY||[]).filter(entry=>entry.release&&(!entry.screenId||entry.screenId===route));
-  heading.textContent='開発 전달 이력'.replace('開発','개발');
+  heading.textContent='개발 전달 이력';
   const list=document.createElement('ul');
   if(!releases.length){const empty=document.createElement('li');empty.textContent='등록된 수정 이력이 없습니다.';list.append(empty);}
   releases.forEach(entry=>{const item=document.createElement('li'),meta=document.createElement('strong'),summary=document.createElement('p');meta.textContent=entry.date+' / '+revisionAccountName(entry)+(entry.version?' · '+(entry.fromVersion?entry.fromVersion+' → ':'')+entry.version:'');summary.textContent=entry.summary;item.append(meta,summary);if(entry.changes){const changes=document.createElement('ul');entry.changes.forEach(text=>{const change=document.createElement('li');change.textContent=text;changes.append(change);});item.append(changes);}if(entry.note){const note=document.createElement('p');note.textContent=entry.note;item.append(note);}list.append(item);});modal.append(list);
@@ -47,21 +47,19 @@
   const wrap=document.createElement("div");wrap.className="ui-spec-grid-wrap";
   const grid=document.createElement("table");grid.className="ui-spec-grid";
   const head=document.createElement("thead"),header=document.createElement("tr");
-  ["번호","항목명","요소 유형","설명","기본값","필수 여부","확정 여부"].forEach((name,index)=>{const th=document.createElement("th");th.scope="col";th.textContent=name;if([2,4,5,6].includes(index))th.className="ui-spec-meta-col";header.append(th);});head.append(header);grid.append(head);
+  ["번호","항목명","요소 유형","설명","기본값"].forEach((name,index)=>{const th=document.createElement("th");th.scope="col";th.textContent=name;if([2,4,5,6].includes(index))th.className="ui-spec-meta-col";header.append(th);});head.append(header);grid.append(head);
   const rows=document.createElement("tbody");
   specs.forEach(spec=>{
    const row=document.createElement("tr");row.id="notice-spec-"+spec.number;row.className="ui-spec-card";row.tabIndex=-1;
    const number=document.createElement("th");number.scope="row";number.textContent=String(spec.number).padStart(2,"0");
    const title=document.createElement("td");const strong=document.createElement("strong");strong.textContent=spec.title;title.append(strong);
-   const inline=document.createElement("dl");inline.className="ui-spec-inline-meta";
-   [["유형",spec.type],["기본값",spec.defaultValue],["필수",spec.required],["확정",spec.status]].forEach(([key,value])=>{const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=key;dd.textContent=value;inline.append(dt,dd);});title.append(inline);
    const type=document.createElement("td");type.textContent=spec.type;type.className="ui-spec-meta-col";
    const description=document.createElement("td");description.className="ui-spec-description";const body=document.createElement("p");body.textContent=spec.description;description.append(body);
    if(spec.options){const options=document.createElement("p");options.textContent="선택 항목: "+spec.options.map(option=>option[0]).join(" / ");description.append(options);}
    (spec.tables||[]).forEach(section=>table(section.title,section.headers,section.rows,description));
    const note=document.createElement("p");note.className="ui-spec-note";note.textContent=spec.note;description.append(note);
    row.append(number,title,type,description);
-   [spec.defaultValue,spec.required,spec.status].forEach(value=>{const td=document.createElement("td");td.className="ui-spec-meta-col";td.textContent=value;row.append(td);});rows.append(row);
+   [spec.defaultValue].forEach(value=>{const td=document.createElement("td");td.className="ui-spec-meta-col";td.textContent=value;row.append(td);});rows.append(row);
   });grid.append(rows);wrap.append(grid);panel.append(wrap);panel.prepend(version);
   status.textContent='Description 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
