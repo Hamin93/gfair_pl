@@ -410,6 +410,7 @@ window.GFAIR_MENU=[
     ]
   }
 ];
+window.GFAIR_MENU.forEach(g=>g.items.forEach(i=>{if(i[0]==='NTC-07')Object.keys(i[3]).forEach(role=>i[3][role]='O')}));
 window.GFAIR_NAV={
  entries:()=>window.GFAIR_MENU.flatMap(g=>g.items.flatMap(i=>[i,...i[2]])),
  has(id){return this.entries().some(x=>x[0]===id)},
@@ -418,3 +419,4 @@ window.GFAIR_NAV={
  allowed(item,role){return ['O','△'].includes(item[3]?.[role])},
  visible(role){return window.GFAIR_MENU.map(g=>({...g,items:g.items.map(i=>[i[0],i[1],i[2].filter(c=>this.allowed(c,role)),i[3]]).filter(i=>this.allowed(i,role)||i[2].length)})).filter(g=>g.items.length)}
 };
+
