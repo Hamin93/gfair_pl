@@ -17,7 +17,7 @@
 @media(max-width:800px){.sidebar{height:auto;max-height:none;overflow:visible}}
 /* 숫자 라벨이 가리키는 목업 범위: 레이아웃에 영향을 주지 않는 점선 */
 #app .ui-spec-range-selected{outline:2px dashed #c62828;outline-offset:3px;border-radius:4px}
-/* 項目名と入力要素をまとめた選択範囲 */
+/* 항목명과 입력 요소를 함께 감싸는 선택 범위 */
 #app .ui-spec-range-selected{outline:0;position:relative}
 #app .ui-spec-range-selected::after{content:"";position:absolute;inset:-8px;border:2px dashed var(--spec-range-color,#c62828);border-radius:0;pointer-events:none;z-index:2}
 #app .field.ui-spec-range-selected>.ui-spec-pin{top:-4px;right:0;z-index:3}
