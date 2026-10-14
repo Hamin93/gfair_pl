@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-spec-1',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-spec-2',base);document.head.append(css);
  const specs=[
   ['화면 개요','행사 운영 안내와 이용 공지를 행사·대상 역할별로 조회한다. 공지 게시와 알림 발송은 별도 작업이다.','화면 ID: NTC-01 · 공지사항'],
   ['검색 조건','행사, 대상 역할, 제목, 게시 상태로 조회한다. 제목은 입력어를 포함하는 공지를 검색한다. 일반 사용자의 조회 범위는 본인 행사·역할로 제한하는 설계다.','기본값: 전체 / 제목 빈 값. 기본 행사와 게시 상태 옵션은 협의 필요.'],
@@ -61,8 +61,11 @@
    const role=document.getElementById('role-picker'),form=document.getElementById('filter-form');
    const values=form?Array.from(new FormData(form)):[];
    if(role){role.value=event.target.value;role.dispatchEvent(new Event('change',{bubbles:true}));}
-   const next=document.getElementById('filter-form');
-   if(next)values.forEach(([name,value])=>{const field=next.elements.namedItem(name);if(field&&(!(field instanceof HTMLSelectElement)||Array.from(field.options).some(o=>o.value===value)))field.value=value;});
+   if(location.hash!=='#NTC-01')location.hash='NTC-01';
+   requestAnimationFrame(()=>{
+    const next=document.getElementById('filter-form');
+    if(next)values.forEach(([name,value])=>{const field=next.elements.namedItem(name);if(field&&(!(field instanceof HTMLSelectElement)||Array.from(field.options).some(o=>o.value===value)))field.value=value;});
+   });
   }
   if(event.target.dataset.spec==='auto'){clearInterval(timer);timer=event.target.checked?setInterval(()=>{if(!panel.hidden)draw();},60000):null;}
  });
