@@ -11,7 +11,7 @@
    const text=row.번호.trim(),number=Number(text);
    if(!/^\d+$/.test(text)||number<1||numbers.has(number))throw Error('번호가 비어 있거나 중복·유효하지 않습니다.');
    numbers.add(number);if(!row.항목명.trim())throw Error(text+'번 항목명이 비어 있습니다.');
-   return {number,title:row.항목명,type:row.요소유형,description:row.설명,defaultValue:row.기본값,required:row.필수여부,note:''};
+   return {number,title:row.항목명,type:row.요소유형,description:row.설명,defaultValue:row.기본값,required:row.필수여부,status:row.확정여부,summary:row.개요설명||row.설명.split('\n')[0],permission:row.권한||'',state:row.상태||'',processing:row.처리||'',exception:row.예외||'',note:''};
   }).sort((a,b)=>a.number-b.number);
  }
  function read(){return new Promise((resolve,reject)=>{
