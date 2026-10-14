@@ -2,9 +2,10 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-access-20261014',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-sheet-20261014',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
- const sourceLabel="프로젝트 고정 명세 · 12개 항목";
+ let sourceLabel="전용 시트 연결 준비 중",sheetBusy=false,sheetRequested=false;
+ let access=window.GFAIR_NOTICE_ACCESS||[];
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
  toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><select class="ui-spec-screen-picker" data-spec="screen" aria-label="목업 화면 선택"></select><button type="button" data-spec="screen-search">화면검색</button><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>사용구분 <select aria-label="사용구분"></select></label><button type="button" data-spec="refresh">새로고침</button><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">전체보기</button><button type="button" data-spec="close">닫기</button><span class="ui-spec-status" role="status"></span></div>';
  const screenPicker=toolbar.querySelector('[data-spec=screen]');
@@ -38,6 +39,7 @@
   if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';panel.append(version);return;}
   const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
   const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · '+sourceLabel;panel.append(intro);
+  const link=document.createElement('a');link.className='ui-spec-source';link.textContent='명세 시트 수정하기 ↗';link.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=214103993#gid=214103993';link.target='_blank';link.rel='noopener';panel.append(link);
   function table(title,headers,rows,card){
    const wrap=document.createElement('div');wrap.className='ui-spec-table';const element=document.createElement('table');
    const caption=document.createElement('caption');caption.textContent=title;element.append(caption);
@@ -67,7 +69,7 @@
     const row=document.createElement('tr'),number=document.createElement('th');number.scope='row';const button=document.createElement('button');button.type='button';button.className='ui-spec-row-link';button.textContent=String(spec.number).padStart(2,'0');button.setAttribute('aria-label',button.textContent+' '+spec.title+' 상세 보기');button.addEventListener('click',()=>openTab(spec.number));number.append(button);row.append(number);
     [spec.title,spec.type,spec.summary||spec.description.split('\n')[0],spec.defaultValue,spec.required].forEach(value=>{const td=document.createElement('td');td.textContent=value||'해당없음';row.append(td);});body.append(row);
    });grid.append(body);wrap.append(grid);content.append(wrap);
-   const access=window.GFAIR_NOTICE_ACCESS||[];
+
    if(access.length){
     table('사용자별 권한',['사용자','이용 범위','권한 · 이용 정책'],access.map(item=>[item.role,item.scope,item.policy]),content);
     const note=document.createElement('p');note.className='ui-spec-link-hint';note.textContent='공지 우선 노출은 개발 정책입니다. 현재 목업에는 상담일지 작성 중 자동 공지 노출과 실제 서버 권한 검증이 연결되어 있지 않습니다. 운영용역사·해외바이어의 이용 범위는 추후 확정이 필요합니다.';content.append(note);
@@ -81,13 +83,18 @@
    const hint=document.createElement('p');hint.className='ui-spec-link-hint';hint.textContent=spec.number>=14?'연결 화면의 개발 조건입니다. 좌측 관련 진입 영역에 같은 번호를 표시합니다.':'탭 선택과 좌측 붉은 번호가 연결됩니다. 현재 역할에서 숨겨진 요소는 표시되지 않을 수 있습니다.';content.append(hint);
   }
   panel.append(content);panel.prepend(version);
-  const foot=document.createElement('p');foot.className='ui-spec-link-hint';foot.textContent='명세는 프로젝트의 고정 데이터로 관리합니다. 새로고침은 현재 명세 표시를 갱신하며 목업 입력값은 유지합니다.';panel.append(foot);
+  const foot=document.createElement('p');foot.className='ui-spec-link-hint';foot.textContent='NTC-01 공지사항목록 시트를 수정하면 새로고침 또는 1분 자동 갱신으로 반영됩니다. 목업 입력값은 유지합니다.';panel.append(foot);
   status.textContent='Description 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
- function refreshDescription(){const scroll=panel.scrollTop;draw();panel.scrollTop=scroll;}
+ async function refreshDescription(){
+  if(sheetBusy)return;sheetBusy=true;const button=toolbar.querySelector('[data-spec=refresh]');button.disabled=true;status.textContent='시트 명세를 불러오는 중…';
+  try{const next=await window.GFAIR_SPEC_SHEET.read();specs=next.specs;access=next.access;sourceLabel='구글 시트 연결 · '+specs.length+'개 항목';if((location.hash.slice(1)||document.body.dataset.screen)==='NTC-01'){const scroll=panel.scrollTop;draw();panel.scrollTop=scroll;status.textContent='시트 반영 완료 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});}}
+  catch(error){status.textContent='갱신 실패 · 이전 명세 유지';const intro=panel.querySelector('.ui-spec-intro');if(intro)intro.textContent='NTC-01 · 이전 명세 유지 · '+error.message;}
+  finally{sheetBusy=false;button.disabled=false;}
+ }
  function sync(){
   const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;
-  const active=route==='NTC-01',overview=route==='screens';toolbar.hidden=false;panel.hidden=closed||overview;
+  const active=route==='NTC-01',overview=route==='screens';if(active&&!sheetRequested){sheetRequested=true;refreshDescription();}toolbar.hidden=false;panel.hidden=closed||overview;
   ['refresh','numbers','full','close'].forEach(action=>{toolbar.querySelector('[data-spec='+action+']').hidden=overview||(action==='numbers'&&!active);});status.hidden=overview;
   screenPicker.value=route;
   panel.setAttribute('aria-label','Description');toolbar.querySelector('[data-spec=numbers]').hidden=overview||!active;
