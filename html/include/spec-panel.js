@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-grouped-20261014',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-policy-20261014',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
  const sourceLabel="프로젝트 고정 명세 · 12개 항목";
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
@@ -69,7 +69,7 @@
    });grid.append(body);wrap.append(grid);content.append(wrap);
   }else{
    const spec=specs.find(item=>item.number===selectedTab);const title=document.createElement('h3');title.textContent=String(spec.number).padStart(2,'0')+' · '+spec.title;content.append(title);
-   table('항목 정보',['요소 유형','기본값','필수여부','상세 설명'],[[spec.type,spec.defaultValue,spec.required,spec.description]],content);
+   table('항목 정보',['요소 유형','기본값','필수여부','상세 설명','정책 설명'],[[spec.type,spec.defaultValue,spec.required,spec.description,spec.policyDescription||'해당없음']],content);
    content.querySelector('.ui-spec-table').classList.add('ui-spec-item-info');
    (spec.detailTables||[]).forEach(section=>table(section.title,section.headers,section.rows,content));
    const hint=document.createElement('p');hint.className='ui-spec-link-hint';hint.textContent=spec.number>=14?'연결 화면의 개발 조건입니다. 좌측 관련 진입 영역에 같은 번호를 표시합니다.':'탭 선택과 좌측 붉은 번호가 연결됩니다. 현재 역할에서 숨겨진 요소는 표시되지 않을 수 있습니다.';content.append(hint);
