@@ -34,7 +34,7 @@
  }
  function draw(){
   panel.replaceChildren();
-  const version=document.createElement('footer');version.className='ui-spec-version';const revisionButton=document.createElement('button');revisionButton.type='button';const latest=(window.GFAIR_REVISION_HISTORY||[])[0];revisionButton.textContent=latest?'HTML '+latest.version+' · '+latest.date+' / '+revisionAccountName(latest):'수정 이력';revisionButton.title='수정 이력 보기';revisionButton.addEventListener('click',showHistory);version.append(revisionButton);
+  const version=document.createElement('footer');version.className='ui-spec-version';const revisionButton=document.createElement('button');revisionButton.type='button';const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;const latest=(window.GFAIR_REVISION_HISTORY||[]).find(entry=>entry.screenId===route);revisionButton.textContent=latest?'HTML '+latest.version+' · '+latest.date+' / '+revisionAccountName(latest):'수정 이력';revisionButton.title='수정 이력 보기';revisionButton.addEventListener('click',showHistory);version.append(revisionButton);
   if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';panel.append(version);return;}
   const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
   const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · '+sourceLabel;panel.append(intro);
