@@ -1,7 +1,7 @@
 (()=>{
  const config={id:'11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE',gid:'214103993',screen:'NTC-01'};
  let sequence=0;
- function normalize(table){
+ function normalizeLegacy(table){
   const blocks={};let block=null,header=null;
   for(const row of table.rows){
    const values=row.c.map(cell=>String(cell?.f??cell?.v??''));
@@ -31,6 +31,28 @@
   const accessBlock=blocks['사용자별 권한'];if(!accessBlock)throw Error('사용자별 권한 표를 확인해 주세요.');
   const access=accessBlock.rows.map(row=>({role:row[0],scope:row[1],policy:row[2]}));
   return {specs,access};
+ }
+ function normalize(table){
+  const blocks={};let current=null,header=null;
+  for(const r of table.rows){const values=r.c.map(c=>String(c?.f??c?.v??''));
+   if(values[0]?.startsWith('# ')){current=values[0].slice(2).trim();header=null;blocks[current]={headers:[],rows:[]};continue;}
+   if(!current||!values.some(v=>v.trim()))continue;
+   if(!header){header=values.filter(v=>v.trim());blocks[current].headers=header;}else blocks[current].rows.push(values.slice(0,header.length));
+  }
+  if(blocks['화면요소']?.headers.includes('상세 설명'))return normalizeLegacy(table);
+  const overview=blocks['화면요소'];if(!overview||!overview.rows.length)throw Error('개요 표를 확인해 주세요.');
+  const numbers=new Set();const specs=overview.rows.map(row=>{
+   const r=Object.fromEntries(overview.headers.map((h,i)=>[h,row[i]||''])),number=Number(r['번호']);
+   if(!/^\d+$/.test(r['번호'])||number<1||numbers.has(number)||!r['항목명'])throw Error('번호 또는 항목명을 확인해 주세요.');numbers.add(number);
+   const label=String(number).padStart(2,'0'),info=blocks[label+' · 항목 정보'];
+   if(!info||info.rows.length!==1)throw Error(label+' 항목 정보 표를 확인해 주세요.');
+   const v=Object.fromEntries(info.headers.map((h,i)=>[h,info.rows[0][i]||'']));
+   if(['요소 유형','기본값','필수여부','상세 설명','정책 설명'].some(h=>!info.headers.includes(h)))throw Error(label+' 항목 정보 열 제목을 확인해 주세요.');
+   const detailTables=Object.entries(blocks).filter(([name])=>name.startsWith(label+' · ')&&name!==label+' · 항목 정보').map(([name,b])=>({title:name.slice((label+' · ').length),headers:b.headers,rows:b.rows}));
+   return {number,title:r['항목명'],summary:r['개요 설명'],type:v['요소 유형'],defaultValue:v['기본값'],required:v['필수여부'],description:v['상세 설명'],policyDescription:v['정책 설명'],detailTables};
+  }).sort((a,b)=>a.number-b.number);
+  const accessBlock=blocks['사용자별 권한'];if(!accessBlock)throw Error('사용자별 권한 표를 확인해 주세요.');
+  return {specs,access:accessBlock.rows.map(r=>({role:r[0],scope:r[1],policy:r[2]}))};
  }
  function read(){return new Promise((resolve,reject)=>{
   const name='__gfairSheet'+(++sequence),script=document.createElement('script');let timeout;
