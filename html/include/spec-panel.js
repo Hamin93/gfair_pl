@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=list-alignment-20261014',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-tabs-20261014',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
  let sheetBusy=false,sheetRequested=false,sourceLabel="시트 연결 준비 중";
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
@@ -17,7 +17,7 @@
  const measureToolbar=()=>document.documentElement.style.setProperty('--sb-toolbar-height',toolbar.getBoundingClientRect().height+'px');
  new ResizeObserver(measureToolbar).observe(toolbar);measureToolbar();
  const panel=document.createElement('aside');panel.className='ui-spec-panel';panel.setAttribute('aria-label','공지사항 Description');panel.hidden=true;layout.append(panel);
- let closed=false,full=false,numbers=true;
+ let closed=false,full=false,numbers=true,selectedTab=0;
  const status=toolbar.querySelector('.ui-spec-status');
  function revisionAccountName(entry){const actual=entry.account||entry.accountName||'';return (window.GFAIR_REVISION_ACCOUNT_NAMES||{})[actual]||entry.accountName||actual;}
  function showHistory(){
@@ -45,23 +45,44 @@
    const head=document.createElement('thead'),row=document.createElement('tr');headers.forEach(text=>{const th=document.createElement('th');th.scope='col';th.textContent=text;row.append(th);});head.append(row);element.append(head);
    const body=document.createElement('tbody');rows.forEach(values=>{const tr=document.createElement('tr');values.forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.append(td);});body.append(tr);});element.append(body);wrap.append(element);card.append(wrap);
   }
-  const wrap=document.createElement("div");wrap.className="ui-spec-grid-wrap";
-  const grid=document.createElement("table");grid.className="ui-spec-grid";
-  const head=document.createElement("thead"),header=document.createElement("tr");
-  ["번호","항목명","요소 유형","설명","기본값"].forEach((name,index)=>{const th=document.createElement("th");th.scope="col";th.textContent=name;if([2,4,5,6].includes(index))th.className="ui-spec-meta-col";header.append(th);});head.append(header);grid.append(head);
-  const rows=document.createElement("tbody");
-  specs.forEach(spec=>{
-   const row=document.createElement("tr");row.id="notice-spec-"+spec.number;row.className="ui-spec-card";row.tabIndex=-1;
-   const number=document.createElement("th");number.scope="row";number.textContent=String(spec.number).padStart(2,"0");
-   const title=document.createElement("td");const strong=document.createElement("strong");strong.textContent=spec.title;title.append(strong);
-   const type=document.createElement("td");type.textContent=spec.type;type.className="ui-spec-meta-col";
-   const description=document.createElement("td");description.className="ui-spec-description";const body=document.createElement("p");body.textContent=spec.description;description.append(body);
-   if(spec.options){const options=document.createElement("p");options.textContent="선택 항목: "+spec.options.map(option=>option[0]).join(" / ");description.append(options);}
-   (spec.tables||[]).forEach(section=>table(section.title,section.headers,section.rows,description));
-   const note=document.createElement("p");note.className="ui-spec-note";note.textContent=spec.note;description.append(note);
-   row.append(number,title,type,description);
-   [spec.defaultValue].forEach(value=>{const td=document.createElement("td");td.className="ui-spec-meta-col";td.textContent=value;row.append(td);});rows.append(row);
-  });grid.append(rows);wrap.append(grid);panel.append(wrap);panel.prepend(version);
+  if(selectedTab&&!specs.some(spec=>spec.number===selectedTab))selectedTab=0;
+  const tabs=document.createElement('div');tabs.className='ui-spec-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','공지사항 Description 항목');
+  [{number:0,title:'개요'},...specs].forEach(spec=>{
+   const button=document.createElement('button');button.type='button';button.id='spec-tab-'+spec.number;button.dataset.tab=spec.number;button.setAttribute('role','tab');button.setAttribute('aria-selected',String(selectedTab===spec.number));button.setAttribute('aria-controls','spec-tab-body');button.tabIndex=selectedTab===spec.number?0:-1;button.textContent=spec.number?String(spec.number).padStart(2,'0'):'개요';button.title=spec.title;
+   button.addEventListener('click',()=>openTab(spec.number));tabs.append(button);
+  });panel.append(tabs);
+  tabs.addEventListener('keydown',event=>{
+   if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();
+   const items=[0,...specs.map(spec=>spec.number)],index=items.indexOf(selectedTab);
+   const next=event.key==='Home'?0:event.key==='End'?items.length-1:(index+(event.key==='ArrowRight'?1:-1)+items.length)%items.length;
+   openTab(items[next]);panel.querySelector('#spec-tab-'+items[next]).focus({preventScroll:true});
+  });
+  const content=document.createElement('div');content.id='spec-tab-body';content.className='ui-spec-tab-body';content.setAttribute('role','tabpanel');content.setAttribute('aria-labelledby','spec-tab-'+selectedTab);content.tabIndex=0;
+  if(!selectedTab){
+   const title=document.createElement('h3');title.textContent='화면요소 · 개요';content.append(title);
+   const wrap=document.createElement('div');wrap.className='ui-spec-grid-wrap';const grid=document.createElement('table');grid.className='ui-spec-grid ui-spec-overview';
+   const head=document.createElement('thead'),tr=document.createElement('tr');
+   ['번호','항목명','요소 유형','설명','기본값','필수여부'].forEach(name=>{const th=document.createElement('th');th.scope='col';th.textContent=name;tr.append(th);});head.append(tr);grid.append(head);
+   const body=document.createElement('tbody');specs.forEach(spec=>{
+    const row=document.createElement('tr'),number=document.createElement('th');number.scope='row';const button=document.createElement('button');button.type='button';button.className='ui-spec-row-link';button.textContent=String(spec.number).padStart(2,'0');button.setAttribute('aria-label',button.textContent+' '+spec.title+' 상세 보기');button.addEventListener('click',()=>openTab(spec.number));number.append(button);row.append(number);
+    [spec.title,spec.type,spec.summary||spec.description.split('\n')[0],spec.defaultValue,spec.required].forEach(value=>{const td=document.createElement('td');td.textContent=value||'해당없음';row.append(td);});body.append(row);
+   });grid.append(body);wrap.append(grid);content.append(wrap);
+  }else{
+   const spec=specs.find(item=>item.number===selectedTab);const title=document.createElement('h3');title.textContent=String(spec.number).padStart(2,'0')+' · '+spec.title;content.append(title);
+   table('항목 정보',['요소 유형','기본값','필수여부','확정여부'],[[spec.type,spec.defaultValue,spec.required,spec.status||'작성중']],content);
+   const section=document.createElement('section');section.className='ui-spec-detail';const heading=document.createElement('h4');heading.textContent='화면 구성 · 상세 설명';const text=document.createElement('p');text.textContent=spec.description;section.append(heading,text);content.append(section);
+   function conditions(title,value){
+    if(!value){const p=document.createElement('p');p.className='ui-spec-detail-empty';p.textContent=title+' 명세가 비어 있습니다. 시트에서 작성해 주세요.';content.append(p);return;}
+    const rows=value.split('\n').filter(line=>line.trim()).map(line=>{const at=line.indexOf(':');return at<0?['조건',line]:[line.slice(0,at),line.slice(at+1).trim()];});table(title,['구분','조건 · 설명'],rows,content);
+   }
+   conditions('권한 · 누가 접근하고 처리하는가',spec.permission);
+   conditions('상태 · 값과 전환 조건',spec.state);
+   conditions('처리 · 입력 검증과 결과',spec.processing);
+   conditions('예외 · 구현 범위와 협의 사항',spec.exception);
+   const hint=document.createElement('p');hint.className='ui-spec-link-hint';hint.textContent=spec.number>=14?'연결 화면의 개발 조건입니다. 좌측 관련 진입 영역에 같은 번호를 표시합니다.':'탭 선택과 좌측 붉은 번호가 연결됩니다. 현재 역할에서 숨겨진 요소는 표시되지 않을 수 있습니다.';content.append(hint);
+  }
+  panel.append(content);panel.prepend(version);
+  const foot=document.createElement('p');foot.className='ui-spec-link-hint';foot.textContent='시트의 화면요소 탭을 수정한 뒤 새로고침하면 개요와 상세 설명이 갱신됩니다. 상태·권한·처리는 개발 명세이며 실제 서비스 권한을 변경하지 않습니다.';panel.append(foot);
   status.textContent='Description 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
  async function refreshSheet(){
@@ -87,13 +108,19 @@
   toolbar.querySelector('[data-spec=numbers]').textContent=numbers?'번호 숨기기':'번호 표시';
   const role=document.getElementById('role-picker'),select=toolbar.querySelector('.ui-spec-actions select');
   if(role){if(!select.options.length)select.innerHTML=role.innerHTML;select.value=role.value;}
-  const targets=[['#filter-form > .field:nth-child(1)',1],['#filter-form > .field:nth-child(2)',2],['#filter-form > .field:nth-child(3)',3],['#filter-form > .field:nth-child(4)',4],['#filter-form .row',5],['.notice-panel .panelhead',7],['.head-actions',8],['.tablewrap',9],['.head-actions',10]];
+  const targets=[['#filter-form > .field:nth-child(1)',1],['#filter-form > .field:nth-child(2)',2],['#filter-form > .field:nth-child(3)',3],['#filter-form > .field:nth-child(4)',4],['#filter-form .row',5],['#filter-form .row',6],['.notice-panel .panelhead h2',7],['.head-actions:has([data-notice-action=create])',8],['.notice-list .notice-title-column',9],['.head-actions:has(a[href="#NTC-05"])',10],['.notice-list thead th:last-child',11],['.notice-panel .panelhead',12],['.notice-panel .tablewrap',13],['.pagehead:has([data-notice-action=create])',14],['.pagehead:has(a[href="#NTC-05"])',15]];
   targets.forEach(([selector,id])=>{
    const target=app.querySelector(selector);if(!target)return;
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
-   if(active&&!closed&&numbers){if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=id;pin.setAttribute('aria-label','Description '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();panel.querySelectorAll('.ui-spec-card').forEach(c=>c.classList.remove('selected'));const card=document.getElementById('notice-spec-'+id);if(!card){status.textContent='시트에서 '+id+'번 항목을 확인해 주세요.';return;}card.classList.add('selected');card.scrollIntoView({block:'nearest',behavior:'smooth'});card.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}}
-   else if(pin){pin.remove();target.classList.remove('ui-spec-marked');}
+   if(active&&!closed&&numbers&&specs.some(spec=>spec.number===id)){
+    if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=String(id).padStart(2,'0');pin.setAttribute('aria-label','Description '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();openTab(id,false);panel.querySelector('#spec-tab-'+id)?.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}
+    pin.classList.toggle('selected',selectedTab===id);pin.setAttribute('aria-pressed',String(selectedTab===id));
+   }else if(pin){pin.remove();target.classList.remove('ui-spec-marked');}
   });
+ }
+ function openTab(id,scroll=true){
+  selectedTab=id;closed=false;numbers=true;draw();sync();
+  if(scroll&&!full){const pin=app.querySelector('.ui-spec-pin[data-spec-number="'+id+'"]');pin?.scrollIntoView({block:'nearest',behavior:'smooth'});}
  }
  toolbar.addEventListener('click',event=>{
   const action=event.target.dataset.spec;
@@ -120,5 +147,5 @@
  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&full){full=false;sync();}});
  new MutationObserver(sync).observe(app,{childList:true,subtree:true});
  window.addEventListener('revision-history-loaded',draw);
- window.addEventListener('hashchange',()=>{draw();sync();});setInterval(()=>{if(!document.hidden&&(location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshSheet();sync();},60000);draw();sync();
+ window.addEventListener('hashchange',()=>{selectedTab=0;draw();sync();});setInterval(()=>{if(!document.hidden&&(location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshSheet();sync();},60000);draw();sync();
 })();

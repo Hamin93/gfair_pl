@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+  {"version":"v3.2","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"Description 개요·01~15 탭, 좌측 번호 연결 및 시트 기반 권한·상태·처리 명세 작성"},
   {
     "version": "v0.1",
     "screenId": "SET-05",
