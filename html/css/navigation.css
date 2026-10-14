@@ -15,3 +15,5 @@
 }
 @media(min-width:801px) and (max-height:750px){.sidebar{padding:10px;gap:7px}.sidebar .brand{font-size:1.5rem}.sidebar .nav-group>summary{padding:5px 9px}.sidebar nav .nav-children a,.sidebar .nav-second summary{padding:4px 8px!important}.sidebar .profile{font-size:12px}.sidebar .caption{font-size:11px}}
 @media(max-width:800px){.sidebar{height:auto;max-height:none;overflow:visible}}
+/* 숫자 라벨이 가리키는 목업 범위: 레이아웃에 영향을 주지 않는 점선 */
+#app .ui-spec-range-selected{outline:2px dashed #c62828;outline-offset:3px;border-radius:4px}
