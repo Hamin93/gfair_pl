@@ -21,7 +21,7 @@
 #app table>thead>tr>th,#app table>thead>tr>td,#app table>tbody>tr>td,#app table>tbody>tr>th{text-align:center}
 #app table>tbody>tr>.list-text-left{text-align:left}
 /* 조작 버튼이 많은 목록은 제목 열의 공간을 우선 확보한다. */
-#app table.survey-action-list{table-layout:fixed;min-width:1120px;font-size:12px}
+#app table.survey-action-list{table-layout:fixed;min-width:0;font-size:12px}
 #app table.survey-action-list th,#app table.survey-action-list td{min-width:0;padding:12px 8px}
 #app table.survey-action-list .btn{font-size:12px;white-space:nowrap;min-height:32px;padding:5px 8px}
 #app table.survey-action-list .row{flex-wrap:nowrap;justify-content:center;gap:6px}
