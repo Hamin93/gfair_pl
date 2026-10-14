@@ -54,7 +54,7 @@
   toolbar.querySelector('[data-spec=numbers]').textContent=numbers?'번호 숨기기':'번호 표시';
   const role=document.getElementById('role-picker'),select=toolbar.querySelector('select');
   if(role){if(!select.options.length)select.innerHTML=role.innerHTML;select.value=role.value;}
-  const targets=[['.ui-spec-identity',1],['#filter-form > .field:nth-child(1)',2],['#filter-form > .field:nth-child(2)',3],['#filter-form > .field:nth-child(3)',4],['#filter-form > .field:nth-child(4)',5],['#filter-form .row',6],['.tablefoot',8],['.head-actions',9],['.tablewrap',10],['.head-actions',11]];
+  const targets=[['.ui-spec-identity',1],['#filter-form > .field:nth-child(1)',2],['#filter-form > .field:nth-child(2)',3],['#filter-form > .field:nth-child(3)',4],['#filter-form > .field:nth-child(4)',5],['#filter-form .row',6],['.notice-panel .panelhead',8],['.head-actions',9],['.tablewrap',10],['.head-actions',11]];
   targets.forEach(([selector,id])=>{
    const target=selector==='.ui-spec-identity'?toolbar.querySelector(selector):app.querySelector(selector);if(!target)return;
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
