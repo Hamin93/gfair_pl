@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version":"v5.2","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"개요 하단에 관리자·국내 바이어·통역원 권한 요약 및 공지 우선 노출 정책 표시"},
  {"version":"v5.1","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"항목 정보에 정책 설명 열 추가, 입력 검증·길이·AND 조건 분리"},
  {"version":"v5.0","fromVersion":"v4.0","release":true,"screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"공지사항 고정 명세와 유형별 상세 표 전달","changes":["구글 시트 연동 해제, 명세를 프로젝트 고정 데이터로 관리.","개요 6열 표와 12개 항목 보존.","상세 항목 정보는 요소 유형·기본값·필수여부·상세 설명으로 구성하고 입력 정책을 함께 표시.","드롭다운 옵션, 상태 정의·전환, 버튼 동작을 각각 표로 표시. 별도 권한 설명 영역 제거."],"note":"실제 화면 표시 및 시트 요청 제거 확인 완료."},
  {"version":"v4.1","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"12번을 페이지당 보기 개수로 정정하고 13~15 참고 정책을 본문 번호에서 제외"},

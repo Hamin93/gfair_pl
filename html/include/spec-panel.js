@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-policy-20261014',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=spec-access-20261014',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
  const sourceLabel="프로젝트 고정 명세 · 12개 항목";
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
@@ -67,6 +67,12 @@
     const row=document.createElement('tr'),number=document.createElement('th');number.scope='row';const button=document.createElement('button');button.type='button';button.className='ui-spec-row-link';button.textContent=String(spec.number).padStart(2,'0');button.setAttribute('aria-label',button.textContent+' '+spec.title+' 상세 보기');button.addEventListener('click',()=>openTab(spec.number));number.append(button);row.append(number);
     [spec.title,spec.type,spec.summary||spec.description.split('\n')[0],spec.defaultValue,spec.required].forEach(value=>{const td=document.createElement('td');td.textContent=value||'해당없음';row.append(td);});body.append(row);
    });grid.append(body);wrap.append(grid);content.append(wrap);
+   const access=window.GFAIR_NOTICE_ACCESS||[];
+   if(access.length){
+    table('사용자별 권한',['사용자','이용 범위','권한 · 이용 정책'],access.map(item=>[item.role,item.scope,item.policy]),content);
+    const note=document.createElement('p');note.className='ui-spec-link-hint';note.textContent='공지 우선 노출은 개발 정책입니다. 현재 목업에는 상담일지 작성 중 자동 공지 노출과 실제 서버 권한 검증이 연결되어 있지 않습니다. 운영용역사·해외바이어의 이용 범위는 추후 확정이 필요합니다.';content.append(note);
+   }
+
   }else{
    const spec=specs.find(item=>item.number===selectedTab);const title=document.createElement('h3');title.textContent=String(spec.number).padStart(2,'0')+' · '+spec.title;content.append(title);
    table('항목 정보',['요소 유형','기본값','필수여부','상세 설명','정책 설명'],[[spec.type,spec.defaultValue,spec.required,spec.description,spec.policyDescription||'해당없음']],content);
