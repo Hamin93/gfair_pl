@@ -1,15 +1,4 @@
-window.GFAIR_NOTICE_SPEC=[
-  {
-    "number": 1,
-    "title": "화면 ID",
-    "type": "복사 버튼",
-    "defaultValue": "NTC-01",
-    "required": "해당없음",
-    "status": "작성중",
-    "description": "표시: 공지사항 목록의 화면 ID인 NTC-01을 표시한다.\n동작: 클릭하면 화면 ID를 클립보드에 복사한다.\n예외: 복사가 제한되면 화면에 표시된 ID를 직접 확인한다.",
-    "note": "연결 화면: 목록 NTC-01 / 등록 NTC-04 / 발송 NTC-05."
-  },
-  {
+window.GFAIR_NOTICE_SPEC=[{
     "number": 2,
     "title": "행사",
     "type": "셀렉트 · 단일 선택",
