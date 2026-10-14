@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-spec-5',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-spec-6',base);document.head.append(css);
  const specs=window.GFAIR_NOTICE_SPEC||[];
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
  toolbar.innerHTML='<strong>WITH / UI SPEC</strong><label>검토 역할 <select aria-label="명세 검토 역할"></select></label><button type="button" data-spec="refresh">명세 새로고침</button><label><input type="checkbox" data-spec="auto"> 자동 갱신</label><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">명세 전체보기</button><button type="button" data-spec="close">개발 명세 닫기</button><span class="ui-spec-status" role="status"></span>';
@@ -51,7 +51,7 @@
   toolbar.querySelector('[data-spec=numbers]').textContent=numbers?'번호 숨기기':'번호 표시';
   const role=document.getElementById('role-picker'),select=toolbar.querySelector('select');
   if(role){if(!select.options.length)select.innerHTML=role.innerHTML;select.value=role.value;}
-  const targets=[['.screen-reference',1],['#filter-form > .field:nth-child(1)',2],['#filter-form > .field:nth-child(2)',3],['#filter-form > .field:nth-child(3)',4],['#filter-form > .field:nth-child(4)',5],['#filter-form .row',6],['.tablefoot',8],['.head-actions',9],['.tablewrap',10],['.head-actions',11]];
+  const targets=[['.screen-reference',1],['#filter-form > .field:nth-child(1)',2],['#filter-form > .field:nth-child(2)',3],['#filter-form > .field:nth-child(3)',4],['#filter-form > .field:nth-child(4)',5],['#filter-form .row',6],['.notice-panel .panelhead',8],['.head-actions',9],['.tablewrap',10],['.head-actions',11]];
   targets.forEach(([selector,id])=>{
    const target=app.querySelector(selector);if(!target)return;
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
