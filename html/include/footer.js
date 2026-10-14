@@ -33,4 +33,4 @@ window.GFAIR_INCLUDE.footer=()=>'<footer class="footer"><span>G-FAIR KOREA 구�
 })();
 
 // 상대 경로로 공지사항 개발 명세 패널을 불러온다.
-(()=>{const script=document.createElement('script');script.src=new URL('spec-panel.js?v=notice-spec-2',document.currentScript.src).href;document.head.append(script);})();
+(()=>{const base=document.currentScript.src;const data=document.createElement('script');data.src=new URL('../data/notice-spec.js?v=notice-spec-3',base).href;data.onload=()=>{const script=document.createElement('script');script.src=new URL('spec-panel.js?v=notice-spec-3',base).href;document.head.append(script);};document.head.append(data);})();
