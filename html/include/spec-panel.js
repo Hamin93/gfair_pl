@@ -2,10 +2,16 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=sb-toolbar-20261014-4',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=sb-toolbar-20261014-5',base);document.head.append(css);
  const specs=window.GFAIR_NOTICE_SPEC||[];
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
- toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><button type="button" class="screen-reference-button" data-spec="copy"></button><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>검토 역할 <select aria-label="Description 검토 역할"></select></label><button type="button" data-spec="refresh">Description 새로고침</button><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">Description 전체보기</button><button type="button" data-spec="close">Description 닫기</button><span class="ui-spec-status" role="status"></span></div>';
+ toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><select class="ui-spec-screen-picker" data-spec="screen" aria-label="목업 화면 선택"></select><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>검토 역할 <select aria-label="Description 검토 역할"></select></label><button type="button" data-spec="refresh">새로고침</button><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">전체보기</button><button type="button" data-spec="close">닫기</button><span class="ui-spec-status" role="status"></span></div>';
+ const screenPicker=toolbar.querySelector('[data-spec=screen]');
+ (window.GFAIR_SCREENS||[]).forEach(group=>{
+  const section=document.createElement('optgroup');section.label=group.name;
+  group.screens.forEach(screen=>{const option=document.createElement('option');option.value=screen.id;option.textContent=screen.id+' : '+(screen.id==='NTC-01'?'공지사항 목록':screen.title);section.append(option);});screenPicker.append(section);
+ });
+ const overview=document.createElement('option');overview.value='screens';overview.textContent='SCREEN-LIST : 전체 화면 목록';screenPicker.append(overview);
  const layout=document.createElement('div');layout.className='ui-spec-layout';app.before(toolbar,layout);layout.append(app);
  const panel=document.createElement('aside');panel.className='ui-spec-panel';panel.setAttribute('aria-label','공지사항 Description');panel.hidden=true;layout.append(panel);
  let closed=false,full=false,numbers=true;
@@ -46,13 +52,13 @@
  function sync(){
   const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;
   const active=route==='NTC-01';toolbar.hidden=false;panel.hidden=closed;
-  const button=toolbar.querySelector('[data-spec=copy]'),id=route==='screens'?'SCREEN-LIST':route,text='화면 ID: '+id;button.dataset.screenId=id;if(button.textContent!==text)button.textContent=text;
+  screenPicker.value=route;
   panel.setAttribute('aria-label','Description');toolbar.querySelector('[data-spec=numbers]').hidden=!active;
   layout.classList.toggle('with-spec',!closed);layout.classList.toggle('spec-full',!closed&&full);
-  toolbar.querySelector('[data-spec=close]').textContent=closed?'Description 열기':'Description 닫기';
-  toolbar.querySelector('[data-spec=full]').textContent=full&&!closed?'목업과 함께 보기':'Description 전체보기';
+  toolbar.querySelector('[data-spec=close]').textContent=closed?'열기':'닫기';
+  toolbar.querySelector('[data-spec=full]').textContent=full&&!closed?'목업과 함께 보기':'전체보기';
   toolbar.querySelector('[data-spec=numbers]').textContent=numbers?'번호 숨기기':'번호 표시';
-  const role=document.getElementById('role-picker'),select=toolbar.querySelector('select');
+  const role=document.getElementById('role-picker'),select=toolbar.querySelector('.ui-spec-actions select');
   if(role){if(!select.options.length)select.innerHTML=role.innerHTML;select.value=role.value;}
   const targets=[['#filter-form > .field:nth-child(1)',1],['#filter-form > .field:nth-child(2)',2],['#filter-form > .field:nth-child(3)',3],['#filter-form > .field:nth-child(4)',4],['#filter-form .row',5],['.notice-panel .panelhead',7],['.head-actions',8],['.tablewrap',9],['.head-actions',10]];
   targets.forEach(([selector,id])=>{
@@ -64,7 +70,6 @@
  }
  toolbar.addEventListener('click',event=>{
   const action=event.target.dataset.spec;
-  if(action==='copy'){const button=toolbar.querySelector('[data-spec=copy]');if(navigator.clipboard)navigator.clipboard.writeText(button.dataset.screenId).catch(()=>{button.title='복사할 화면 ID: '+button.dataset.screenId;});else button.title='복사할 화면 ID: '+button.dataset.screenId;}
   if(action==='refresh')draw();
   if(action==='numbers')numbers=!numbers;
   if(action==='full'){closed=false;full=!full;}
@@ -72,7 +77,8 @@
   sync();
  });
  toolbar.addEventListener('change',event=>{
-  if(event.target.tagName==='SELECT'){
+  if(event.target.dataset.spec==='screen'){closed=false;full=false;location.hash=event.target.value;sync();return;}
+  if(event.target===toolbar.querySelector('.ui-spec-actions select')){
    const role=document.getElementById('role-picker'),form=document.getElementById('filter-form');
    const values=form?Array.from(new FormData(form)):[];
    if(role){role.value=event.target.value;role.dispatchEvent(new Event('change',{bubbles:true}));}
