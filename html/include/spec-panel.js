@@ -39,7 +39,7 @@
   if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';panel.append(version);return;}
   const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
   const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · '+sourceLabel;panel.append(intro);
-  const link=document.createElement('a');link.className='ui-spec-source';link.textContent='명세 시트 수정하기 ↗';link.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=214103993#gid=214103993';link.target='_blank';link.rel='noopener';panel.append(link);
+  const link=document.createElement('a');link.className='ui-spec-source';link.textContent='명세 시트 수정하기 ↗';link.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1062168489#gid=1062168489';link.target='_blank';link.rel='noopener';panel.append(link);
   function table(title,headers,rows,card){
    const wrap=document.createElement('div');wrap.className='ui-spec-table';const element=document.createElement('table');
    const caption=document.createElement('caption');caption.textContent=title;element.append(caption);

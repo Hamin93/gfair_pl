@@ -1,5 +1,5 @@
 (()=>{
- const config={id:'11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE',gid:'214103993',screen:'NTC-01'};
+ const config={id:'11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE',gid:'1062168489',screen:'NTC-01'};
  let sequence=0;
  function normalizeLegacy(table){
   const blocks={};let block=null,header=null;
