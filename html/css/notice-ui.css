@@ -24,3 +24,6 @@
 
 /* 등록·상세 번호는 기존 목록 번호 위치 규칙과 분리한다. */
 .notice-board:is([data-notice-view="create"],[data-notice-view="edit"],[data-notice-view="detail"]) .ui-spec-marked{padding-right:34px}.notice-board:is([data-notice-view="create"],[data-notice-view="edit"],[data-notice-view="detail"]) .ui-spec-pin[data-spec-number]{left:auto;right:4px;top:2px;bottom:auto}
+
+/* 공지사항 등록 번호: 항목명과 겹치지 않도록 좌측 상단 공간 확보. */
+.notice-board[data-notice-view="create"] .ui-spec-marked{padding-right:0;padding-left:34px}.notice-board[data-notice-view="create"] .ui-spec-pin[data-spec-number]{left:2px;right:auto;top:2px;bottom:auto}
