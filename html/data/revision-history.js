@@ -1,5 +1,7 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version":"v5.9","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"대상 선택 메뉴가 필터 패널에 잘리는 현상 수정"},
+ {"version":"v5.9","screenId":"NTC-04","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"대상 메뉴의 상위 패널 잘림 방지 및 긴 항목명 줄바꿈 적용"},
  {"version":"v5.8","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"대상 체크박스 다중 선택·쉼표 표시·OR 검색 및 복수 대상 예시 적용"},
  {"version":"v5.8","screenId":"NTC-04","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"등록·수정 대상 다중 선택과 목록·상세의 복수 대상 표시 적용"},
  {"version":"v5.7","screenId":"NTC-04","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"공지사항 등록·수정 필수 표시를 빨간 별표로 변경하고 게시기간 필수 입력 적용"},

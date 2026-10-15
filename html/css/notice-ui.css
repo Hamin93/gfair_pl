@@ -14,3 +14,8 @@
 .notice-target-options{position:absolute;left:0;top:calc(100% + 4px);z-index:12;width:max(100%,320px);max-width:calc(100vw - 56px);padding:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;background:#fff;border:1px solid #aaa;border-radius:6px;box-shadow:0 4px 12px #0002}
 .notice-target-options label{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer;min-width:0}.notice-target-options input{flex:none;width:16px;min-height:16px;height:16px;padding:0}.notice-list td:nth-child(4){white-space:normal;min-width:130px;overflow-wrap:anywhere}
 @media(max-width:450px){.notice-target-options{width:100%;max-width:100%;grid-template-columns:1fr}}
+
+/* 대상 메뉴가 필터 패널의 둥근 테두리에 잘리지 않도록 한다. */
+.notice-board .notice-filters{overflow:visible;position:relative;z-index:2}
+.notice-editor .notice-panel{overflow:visible}
+.notice-target-options label>span{white-space:normal;overflow-wrap:anywhere}
