@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version":"v5.15","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"고정 공지 제목 앞 기호를 가독성 있는 핀 형태 아이콘으로 교체"},
  {"version": "v5.14", "screenId": "NTC-01", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "공지사항 대상 단일 선택 전환 및 목록·등록·상세 명세 갱신"},
  {"version": "v5.14", "screenId": "NTC-04", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "공지사항 대상 단일 선택 전환 및 목록·등록·상세 명세 갱신"},
  {"version":"v5.13","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"12번 리스트 정렬방식 명세 추가 및 08번 제목 텍스트 상세 이동 번호 연결"},

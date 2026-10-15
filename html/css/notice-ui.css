@@ -29,3 +29,5 @@
 .notice-board[data-notice-view="create"] .ui-spec-marked{padding-right:0;padding-left:34px}.notice-board[data-notice-view="create"] .ui-spec-pin[data-spec-number]{left:2px;right:auto;top:2px;bottom:auto}
 
 .notice-board[data-notice-view="list"] .notice-list td.ui-spec-marked{padding-left:38px}.notice-board[data-notice-view="list"] .notice-list td>.ui-spec-pin[data-spec-number="8"]{left:3px;right:auto;top:3px}
+
+.notice-list .notice-fixed-pin{display:inline-block;width:18px;height:18px;margin-right:6px;vertical-align:-4px;fill:none;stroke:#555;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
