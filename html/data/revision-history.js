@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version": "v5.11", "screenId": "NTC-04", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "공지사항 등록·상세 번호별 Description 및 전용 구글 시트 새로고침·1분 갱신 연결"},
  {"version":"v5.10","screenId":"NTC-04","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"공지 상세 첨부파일 있음·없음 상태와 파일 카드·다운로드 예시 구성"},
  {"version":"v5.9","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"대상 선택 메뉴가 필터 패널에 잘리는 현상 수정"},
  {"version":"v5.9","screenId":"NTC-04","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"대상 메뉴의 상위 패널 잘림 방지 및 긴 항목명 줄바꿈 적용"},

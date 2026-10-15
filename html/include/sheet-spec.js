@@ -54,14 +54,14 @@
   const accessBlock=blocks['사용자별 권한'];if(!accessBlock)throw Error('사용자별 권한 표를 확인해 주세요.');
   return {specs,access:accessBlock.rows.map(r=>({role:r[0],scope:r[1],policy:r[2]}))};
  }
- function read(){return new Promise((resolve,reject)=>{
+ function read(gid=config.gid){return new Promise((resolve,reject)=>{
   const name='__gfairSheet'+(++sequence),script=document.createElement('script');let timeout;
   const clean=()=>{clearTimeout(timeout);script.remove();delete window[name];};
   window[name]=result=>{clean();try{if(result.status==='error'||!result.table)throw Error('시트 응답을 읽을 수 없습니다.');resolve(normalize(result.table));}catch(e){reject(e);}};
   script.onerror=()=>{clean();reject(Error('시트 읽기 권한 또는 네트워크를 확인해 주세요.'));};
   timeout=setTimeout(()=>{clean();reject(Error('시트 응답 시간이 초과되었습니다.'));},18000);
   const url=new URL('https://docs.google.com/spreadsheets/d/'+config.id+'/gviz/tq');
-  url.searchParams.set('gid',config.gid);url.searchParams.set('headers','0');url.searchParams.set('tq','select *');url.searchParams.set('tqx','out:json;responseHandler:'+name);url.searchParams.set('_',Date.now());
+  url.searchParams.set('gid',gid);url.searchParams.set('headers','0');url.searchParams.set('tq','select *');url.searchParams.set('tqx','out:json;responseHandler:'+name);url.searchParams.set('_',Date.now());
   script.src=url.href;script.referrerPolicy='no-referrer';document.head.append(script);
  });}
  window.GFAIR_SPEC_SHEET={config,normalize,read};

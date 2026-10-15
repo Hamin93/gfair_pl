@@ -6,6 +6,11 @@
  let specs=window.GFAIR_NOTICE_SPEC||[];
  let sourceLabel="전용 시트 연결 준비 중",sheetBusy=false,sheetRequested=false;
  let access=window.GFAIR_NOTICE_ACCESS||[];
+ const listState={specs,access,label:sourceLabel};
+ const contextCache={list:listState};let contextKey='list';
+ function context(){const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;if(route==='NTC-01')return 'list';if(route==='NTC-04'){const view=app.querySelector('[data-notice-view]')?.dataset.noticeView;return view==='detail'?'detail':view==='create'||view==='edit'?'editor':null;}return null;}
+ function config(){return contextKey==='list'?{gid:'1062168489',name:'NTC-01 공지사항목록'}:window.GFAIR_NOTICE_DETAIL_SPEC?.[contextKey];}
+ function selectContext(){const key=context();if(!key||key===contextKey)return false;contextCache[contextKey]={specs,access,label:sourceLabel};contextKey=key;const data=contextCache[key]||window.GFAIR_NOTICE_DETAIL_SPEC[key];specs=data.specs;access=data.access;sourceLabel=data.label||'기본 명세 · 시트 연결 중';selectedTab=0;sheetRequested=false;return true;}
  const toolbar=document.createElement('div');toolbar.className='ui-spec-toolbar';toolbar.hidden=true;
  toolbar.innerHTML='<div class="ui-spec-identity"><strong>With / 기획팀 SB</strong><select class="ui-spec-screen-picker" data-spec="screen" aria-label="목업 화면 선택"></select><button type="button" data-spec="screen-search">화면검색</button><span class="ui-spec-preview">예시 데이터 · 검토용</span></div><div class="ui-spec-actions"><label>사용구분 <select aria-label="사용구분"></select></label><button type="button" data-spec="refresh">새로고침</button><button type="button" data-spec="numbers">번호 숨기기</button><button type="button" data-spec="full">전체보기</button><button type="button" data-spec="close">닫기</button><span class="ui-spec-status" role="status"></span></div>';
  const screenPicker=toolbar.querySelector('[data-spec=screen]');
@@ -36,10 +41,10 @@
  function draw(){
   panel.replaceChildren();
   const version=document.createElement('footer');version.className='ui-spec-version';const revisionButton=document.createElement('button');revisionButton.type='button';const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;const latest=(window.GFAIR_REVISION_HISTORY||[]).find(entry=>entry.screenId===route);revisionButton.textContent=latest?'HTML '+latest.version+' · '+latest.date+' / '+revisionAccountName(latest):'수정 이력';revisionButton.title='수정 이력 보기';revisionButton.addEventListener('click',showHistory);version.append(revisionButton);
-  if((decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen)!=='NTC-01'){status.textContent='';panel.append(version);return;}
-  const heading=document.createElement('h2');heading.textContent='공지사항 Description';panel.append(heading);
-  const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent='NTC-01 · '+sourceLabel;panel.append(intro);
-  const link=document.createElement('a');link.className='ui-spec-source';link.textContent='명세 시트 수정하기 ↗';link.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid=1062168489#gid=1062168489';link.target='_blank';link.rel='noopener';panel.append(link);
+  if(!context()){status.textContent='';panel.append(version);return;}
+  const heading=document.createElement('h2');heading.textContent=(contextKey==='list'?'공지사항':contextKey==='editor'?'공지사항 등록·수정':'공지사항 상세')+' Description';panel.append(heading);
+  const intro=document.createElement('p');intro.className='ui-spec-intro';intro.textContent=(contextKey==='list'?'NTC-01':'NTC-04')+' · '+sourceLabel;panel.append(intro);
+  const link=document.createElement('a');link.className='ui-spec-source';link.textContent='명세 시트 수정하기 ↗';link.href='https://docs.google.com/spreadsheets/d/11ta8oBialEa6NBmHdngQXZFjLCD9ouPmQ_GJBAb78RE/edit?gid='+config().gid+'#gid='+config().gid;link.target='_blank';link.rel='noopener';panel.append(link);
   function table(title,headers,rows,card){
    const wrap=document.createElement('div');wrap.className='ui-spec-table';const element=document.createElement('table');
    const caption=document.createElement('caption');caption.textContent=title;element.append(caption);
@@ -72,7 +77,7 @@
 
    if(access.length){
     table('사용자별 권한',['사용자','이용 범위','권한 · 이용 정책'],access.map(item=>[item.role,item.scope,item.policy]),content);
-    const note=document.createElement('p');note.className='ui-spec-link-hint';note.textContent='공지 우선 노출은 개발 정책입니다. 현재 목업에는 상담일지 작성 중 자동 공지 노출과 실제 서버 권한 검증이 연결되어 있지 않습니다. 운영용역사·해외바이어의 이용 범위는 추후 확정이 필요합니다.';content.append(note);
+    const note=document.createElement('p');note.className='ui-spec-link-hint';note.hidden=contextKey!=='list';note.textContent='공지 우선 노출은 개발 정책입니다. 현재 목업에는 상담일지 작성 중 자동 공지 노출과 실제 서버 권한 검증이 연결되어 있지 않습니다. 운영용역사·해외바이어의 이용 범위는 추후 확정이 필요합니다.';content.append(note);
    }
 
   }else{
@@ -83,18 +88,20 @@
    const hint=document.createElement('p');hint.className='ui-spec-link-hint';hint.textContent=spec.number>=14?'연결 화면의 개발 조건입니다. 좌측 관련 진입 영역에 같은 번호를 표시합니다.':'탭 선택과 좌측 붉은 번호가 연결됩니다. 현재 역할에서 숨겨진 요소는 표시되지 않을 수 있습니다.';content.append(hint);
   }
   panel.append(content);panel.prepend(version);
-  const foot=document.createElement('p');foot.className='ui-spec-link-hint';foot.textContent='NTC-01 공지사항목록 시트를 수정하면 새로고침 또는 1분 자동 갱신으로 반영됩니다. 목업 입력값은 유지합니다.';panel.append(foot);
+  const foot=document.createElement('p');foot.className='ui-spec-link-hint';foot.textContent=config().name+' 시트를 수정하면 새로고침 또는 1분 자동 갱신으로 반영됩니다. 목업 입력값은 유지합니다.';panel.append(foot);
   status.textContent='Description 확인 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit'}).format(new Date());
  }
  async function refreshDescription(){
   if(sheetBusy)return;sheetBusy=true;const button=toolbar.querySelector('[data-spec=refresh]');button.disabled=true;status.textContent='시트 명세를 불러오는 중…';
-  try{const next=await window.GFAIR_SPEC_SHEET.read();specs=next.specs;access=next.access;sourceLabel='구글 시트 연결 · '+specs.length+'개 항목';if((location.hash.slice(1)||document.body.dataset.screen)==='NTC-01'){const scroll=panel.scrollTop;draw();panel.scrollTop=scroll;status.textContent='시트 반영 완료 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});}}
-  catch(error){status.textContent='갱신 실패 · 이전 명세 유지';const intro=panel.querySelector('.ui-spec-intro');if(intro)intro.textContent='NTC-01 · 이전 명세 유지 · '+error.message;}
-  finally{sheetBusy=false;button.disabled=false;}
+  const requestedKey=contextKey,requestedConfig=config();
+  try{const next=await window.GFAIR_SPEC_SHEET.read(requestedConfig.gid);const label='구글 시트 연결 · '+next.specs.length+'개 항목';contextCache[requestedKey]={...next,label};if(context()&&contextKey===requestedKey){specs=next.specs;access=next.access;sourceLabel=label;const scroll=panel.scrollTop;draw();panel.scrollTop=scroll;status.textContent='시트 반영 완료 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});}}
+
+  catch(error){status.textContent='갱신 실패 · 이전 명세 유지';const intro=panel.querySelector('.ui-spec-intro');if(intro)intro.textContent='이전 명세 유지 · '+error.message;}
+  finally{sheetBusy=false;button.disabled=false;if(context()&&contextKey!==requestedKey)refreshDescription();}
  }
  function sync(){
   const route=decodeURIComponent(location.hash.slice(1))||document.body.dataset.screen;
-  const active=route==='NTC-01',overview=route==='screens';if(active&&!sheetRequested){sheetRequested=true;refreshDescription();}toolbar.hidden=false;panel.hidden=closed||overview;
+  if(selectContext())draw();const active=!!context(),overview=route==='screens';if(active&&!sheetRequested){sheetRequested=true;refreshDescription();}toolbar.hidden=false;panel.hidden=closed||overview;
   ['refresh','numbers','full','close'].forEach(action=>{toolbar.querySelector('[data-spec='+action+']').hidden=overview||(action==='numbers'&&!active);});status.hidden=overview;
   screenPicker.value=route;
   panel.setAttribute('aria-label','Description');toolbar.querySelector('[data-spec=numbers]').hidden=overview||!active;
@@ -109,8 +116,17 @@
    const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';anchor.dataset.control=button.id==='notice-size'?'page-size':button.type==='submit'?'search':'reset';button.before(anchor);anchor.append(button);
   });
   const targets=[['#filter-form .field:has([name=f1])',1],['#filter-form .field:has([name=f3])',2],['#filter-form .field:has([name=f2])',3],['.ui-spec-control-anchor[data-control=search]',4],['.ui-spec-control-anchor[data-control=reset]',5],['.notice-panel .panelhead h2',6],['.head-actions:has([data-notice-action=create])',7],['.notice-list .notice-title-column',8],['.head-actions:has(a[href="#NTC-05"])',9],['.notice-list thead th:last-child',10],['.ui-spec-control-anchor[data-control=page-size]',11]];
+  if(active&&contextKey!=='list'){
+   targets.length=0;
+   if(contextKey==='editor'){
+    ['[name=event]','.notice-target-picker','[name=category]','fieldset','[name=status]','.notice-dates','[name=title]','[name=body]','#notice-file','[data-notice-action=cancel]','[type=submit]'].forEach((selector,i)=>{const el=app.querySelector('.notice-editor '+selector);if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
+   }else{
+    const indices=[0,1,2,3,4,6,7,8,9,10];indices.forEach((index,i)=>{const el=app.querySelectorAll('.notice-detail dt')[index];if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
+    targets.push(['[data-notice-action=back]',11],['[data-notice-action=edit]',12]);
+   }
+  }
   targets.forEach(([selector,id])=>{
-   const target=app.querySelector(selector);if(!target)return;
+   let target=app.querySelector(selector);if(!target)return;if(target.matches('input,select,textarea'))target=target.closest('.field')||target.parentElement;if(target.matches('button')){if(!target.parentElement.classList.contains('ui-spec-control-anchor')){const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';target.before(anchor);anchor.append(target);}target=target.parentElement;}
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
    if(active&&!closed&&numbers&&specs.some(spec=>spec.number===id)){
     if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=String(id).padStart(2,'0');pin.setAttribute('aria-label','Description '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();openTab(id,false);panel.querySelector('#spec-tab-'+id)?.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}
@@ -127,7 +143,7 @@
  toolbar.addEventListener('click',event=>{
   const action=event.target.dataset.spec;
   if(action==='screen-search'){closed=false;full=false;location.hash='screens';}
-  if(action==='refresh'){closed=false;if((location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshDescription();else draw();}
+  if(action==='refresh'){closed=false;if(context())refreshDescription();else draw();}
   if(action==='numbers')numbers=!numbers;
   if(action==='full'){closed=false;full=!full;}
   if(action==='close'){closed=!closed;full=false;}
@@ -149,5 +165,5 @@
  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&full){full=false;sync();}});
  new MutationObserver(sync).observe(app,{childList:true,subtree:true});
  window.addEventListener('revision-history-loaded',draw);
- window.addEventListener('hashchange',()=>{selectedTab=0;draw();sync();});setInterval(()=>{if(!document.hidden&&(location.hash.slice(1)||document.body.dataset.screen)==='NTC-01')refreshDescription();sync();},60000);draw();sync();
+ window.addEventListener('hashchange',()=>{selectedTab=0;draw();sync();});setInterval(()=>{if(!document.hidden&&context())refreshDescription();sync();},60000);draw();sync();
 })();
