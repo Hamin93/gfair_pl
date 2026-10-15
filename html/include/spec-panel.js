@@ -126,7 +126,7 @@
    }
   }
   targets.forEach(([selector,id])=>{
-   let target=app.querySelector(selector);if(!target)return;if(target.matches('input,select,textarea'))target=target.closest('.field')||target.parentElement;if(target.matches('button')){if(!target.parentElement.classList.contains('ui-spec-control-anchor')){const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';target.before(anchor);anchor.append(target);}target=target.parentElement;}
+   let target=app.querySelector(selector);if(!target)return;if(target.matches('.notice-target-picker'))target=target.parentElement;if(target.matches('input,select,textarea'))target=target.closest('.field')||target.parentElement;if(target.matches('button')){if(!target.parentElement.classList.contains('ui-spec-control-anchor')){const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';target.before(anchor);anchor.append(target);}target=target.parentElement;}
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
    if(active&&!closed&&numbers&&specs.some(spec=>spec.number===id)){
     if(!pin){pin=document.createElement('button');pin.type='button';pin.className='ui-spec-pin';pin.dataset.specNumber=id;pin.textContent=String(id).padStart(2,'0');pin.setAttribute('aria-label','Description '+id+'번 보기');pin.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();openTab(id,false);panel.querySelector('#spec-tab-'+id)?.focus({preventScroll:true});});target.classList.add('ui-spec-marked');target.append(pin);}

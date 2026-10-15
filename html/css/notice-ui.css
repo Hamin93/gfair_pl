@@ -21,3 +21,6 @@
 .notice-target-options label>span{white-space:normal;overflow-wrap:anywhere}
 
 .notice-attachment{display:flex;align-items:center;gap:14px;padding:16px;border:1px solid #ddd;border-radius:6px;background:#fafafa}.notice-file-type{flex:none;padding:10px 8px;background:#e8e8e8;border-radius:4px;font-size:12px;font-weight:700}.notice-file-meta{min-width:0;flex:1}.notice-file-meta strong{display:block;font-size:13px;overflow-wrap:anywhere}.notice-file-meta small{display:block;margin-top:5px;color:#777;font-size:12px}.notice-attachment>.btn{flex:none;white-space:nowrap}.notice-file-note{margin-top:8px}.notice-no-attachment{padding:14px 0;color:#777;font-size:13px}@media(max-width:550px){.notice-attachment{flex-wrap:wrap}.notice-attachment>.btn{margin-left:auto}}
+
+/* 등록·상세 번호는 기존 목록 번호 위치 규칙과 분리한다. */
+.notice-board:is([data-notice-view="create"],[data-notice-view="edit"],[data-notice-view="detail"]) .ui-spec-marked{padding-right:34px}.notice-board:is([data-notice-view="create"],[data-notice-view="edit"],[data-notice-view="detail"]) .ui-spec-pin[data-spec-number]{left:auto;right:4px;top:2px;bottom:auto}

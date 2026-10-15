@@ -1,6 +1,6 @@
 (()=>{
  const app=document.getElementById('app');if(!app)return;
- const base=document.currentScript.src,css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/notice-ui.css?v=notice-attachment-20261015',base);document.head.append(css);
+ const base=document.currentScript.src,css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/notice-ui.css?v=notice-form-pins-20261015',base);document.head.append(css);
  const E=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const titles=['행사 운영 및 참가 안내','상담일지 작성 안내','바이어 현장 도착 및 출석 안내','상담 일정 확인 안내','통역원 사전 준비 안내','참가기업 부스 운영 안내','구매상담 진행 안내','수출상담 자료 준비 안내','행사장 이용 안내','만족도 설문 참여 안내','현장 매칭 안내','상담 후속 업무 안내'];
  let records=titles.map((title,i)=>({id:'NOTICE-'+String(i+1).padStart(3,'0'),event:i===11?'2025':'2026',category:i%2?'일반공지':'운영공지',title:title+' (예시)',target:i===8?'구매상담 운영용역사':i===10?'수출상담 운영용역사':['전체','국내바이어','해외바이어','통역원'][i%4],pinned:i<2,status:i===3||i===7?'미게시':'게시',writer:'운영 관리자 (예시)',date:'2026.10.'+String(14-i).padStart(2,'0'),period:'2026.10.01 ~ 2026.10.31',start:'2026-10-01',end:'2026-10-31',body:title+'에 관한 예시 공지입니다.\n\n행사 운영 절차와 담당 일정을 확인해 주세요.\n이 화면의 공지와 저장 동작은 기획 검토용 예시입니다.',attachment:i===0?{name:'G-FAIR_KOREA_2026_행사운영안내.pdf',size:'248 KB',example:true}:null}));
