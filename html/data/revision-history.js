@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version":"v5.17","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"검색 필터를 공지구분·대상·게시상태 / 등록일·통합검색 두 줄 좌측 정렬로 축소"},
  {"version": "v5.16", "screenId": "NTC-01", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "공지구분·등록일 검색 추가 및 목록·등록·상세 게시기간 제거"},
  {"version": "v5.16", "screenId": "NTC-04", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "등록·상세 게시기간 및 날짜 필수 검증 제거, Description 번호 재정리"},
  {"version":"v5.15","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"고정 공지 제목 앞 기호를 가독성 있는 핀 형태 아이콘으로 교체"},
