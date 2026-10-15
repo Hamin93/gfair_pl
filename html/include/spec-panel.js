@@ -115,14 +115,14 @@
    if(button.parentElement.classList.contains('ui-spec-control-anchor'))return;
    const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';anchor.dataset.control=button.id==='notice-sort'?'sort':button.id==='notice-size'?'page-size':button.type==='submit'?'search':'reset';button.before(anchor);anchor.append(button);
   });
-  const targets=[['#filter-form .field:has([name=f1])',1],['#filter-form .field:has([name=f3])',2],['#filter-form .field:has([name=f2])',3],['.ui-spec-control-anchor[data-control=search]',4],['.ui-spec-control-anchor[data-control=reset]',5],['.notice-panel .panelhead h2',6],['.head-actions:has([data-notice-action=create])',7],['.notice-list tbody tr:first-child td:nth-child(3)',8],['.head-actions:has(a[href="#NTC-05"])',9],['.notice-list thead th:last-child',10],['.ui-spec-control-anchor[data-control=page-size]',11],['.ui-spec-control-anchor[data-control=sort]',12]];
+  const targets=[['#filter-form .field:has([name=f1])',1],['#filter-form .field:has([name=f3])',2],['#filter-form .field:has([name=f2])',3],['.ui-spec-control-anchor[data-control=search]',4],['.ui-spec-control-anchor[data-control=reset]',5],['.notice-panel .panelhead h2',6],['.head-actions:has([data-notice-action=create])',7],['.notice-list tbody tr:first-child td:nth-child(3)',8],['.head-actions:has(a[href="#NTC-05"])',9],['.notice-list thead th:last-child',10],['.ui-spec-control-anchor[data-control=page-size]',11],['.ui-spec-control-anchor[data-control=sort]',12],['.notice-category-filter',13],['.notice-registration-filter',14]];
   if(active&&contextKey!=='list'){
    targets.length=0;
    if(contextKey==='editor'){
-    ['[name=event]','[name=target]','[name=category]','fieldset','[name=status]','.notice-dates','[name=title]','[name=body]','#notice-file','[data-notice-action=cancel]','[type=submit]'].forEach((selector,i)=>{const el=app.querySelector('.notice-editor '+selector);if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
+    ['[name=event]','[name=target]','[name=category]','fieldset','[name=status]','[name=title]','[name=body]','#notice-file','[data-notice-action=cancel]','[type=submit]'].forEach((selector,i)=>{const el=app.querySelector('.notice-editor '+selector);if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
    }else{
-    const indices=[0,1,2,3,4,6,7,8,9,10];indices.forEach((index,i)=>{const el=app.querySelectorAll('.notice-detail dt')[index];if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
-    targets.push(['[data-notice-action=back]',11],['[data-notice-action=edit]',12]);
+    const indices=[0,1,2,3,4,6,7,8,9];indices.forEach((index,i)=>{const el=app.querySelectorAll('.notice-detail dt')[index];if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
+    targets.push(['[data-notice-action=back]',10],['[data-notice-action=edit]',11]);
    }
   }
   targets.forEach(([selector,id])=>{
