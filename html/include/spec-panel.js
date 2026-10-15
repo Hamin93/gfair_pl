@@ -119,7 +119,7 @@
   if(active&&contextKey!=='list'){
    targets.length=0;
    if(contextKey==='editor'){
-    ['[name=event]','.notice-target-picker','[name=category]','fieldset','[name=status]','.notice-dates','[name=title]','[name=body]','#notice-file','[data-notice-action=cancel]','[type=submit]'].forEach((selector,i)=>{const el=app.querySelector('.notice-editor '+selector);if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
+    ['[name=event]','[name=target]','[name=category]','fieldset','[name=status]','.notice-dates','[name=title]','[name=body]','#notice-file','[data-notice-action=cancel]','[type=submit]'].forEach((selector,i)=>{const el=app.querySelector('.notice-editor '+selector);if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
    }else{
     const indices=[0,1,2,3,4,6,7,8,9,10];indices.forEach((index,i)=>{const el=app.querySelectorAll('.notice-detail dt')[index];if(el){el.dataset.noticeSpecAnchor=i+1;targets.push(['[data-notice-spec-anchor="'+(i+1)+'"]',i+1]);}});
     targets.push(['[data-notice-action=back]',11],['[data-notice-action=edit]',12]);

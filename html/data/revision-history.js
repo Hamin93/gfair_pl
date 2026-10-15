@@ -1,5 +1,7 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version": "v5.14", "screenId": "NTC-01", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "공지사항 대상 단일 선택 전환 및 목록·등록·상세 명세 갱신"},
+ {"version": "v5.14", "screenId": "NTC-04", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "공지사항 대상 단일 선택 전환 및 목록·등록·상세 명세 갱신"},
  {"version":"v5.13","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"12번 리스트 정렬방식 명세 추가 및 08번 제목 텍스트 상세 이동 번호 연결"},
  {"version":"v5.12","screenId":"NTC-04","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"공지사항 등록 화면의 Description 번호를 각 항목 좌측 상단으로 배치"},
  {"version": "v5.11", "screenId": "NTC-04", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "공지사항 등록·상세 번호별 Description 및 전용 구글 시트 새로고침·1분 갱신 연결"},
