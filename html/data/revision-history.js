@@ -1,5 +1,7 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version":"v5.8","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"대상 체크박스 다중 선택·쉼표 표시·OR 검색 및 복수 대상 예시 적용"},
+ {"version":"v5.8","screenId":"NTC-04","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"등록·수정 대상 다중 선택과 목록·상세의 복수 대상 표시 적용"},
  {"version":"v5.7","screenId":"NTC-04","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"공지사항 등록·수정 필수 표시를 빨간 별표로 변경하고 게시기간 필수 입력 적용"},
  {"version":"v5.6","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"국내 바이어·통역원 공지사항 필터를 전체 폭으로 확대, 통합검색 공간 확보"},
  {"version":"v5.5","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"행사 중복 필터 제거, 통합검색 우측 배치, 대상 운영용역사 옵션 추가 및 명세 정리"},
