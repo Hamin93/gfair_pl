@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version":"v5.19","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"필터 대상·공지구분·게시상태 순서 및 검색·초기화 중앙 정렬"},
  {"version": "v5.18", "screenId": "NTC-01", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "검색 필터 전체 폭 정렬 및 게시상태 라디오 전환"},
  {"version": "v5.18", "screenId": "NTC-04", "date": "2026.10.15", "accountName": "yulotso0310-cyber", "summary": "게시 상태 다음 제목 라벨을 좌측 새 행에 배치"},
  {"version":"v5.17","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"검색 필터를 공지구분·대상·게시상태 / 등록일·통합검색 두 줄 좌측 정렬로 축소"},

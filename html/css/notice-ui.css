@@ -46,3 +46,5 @@
 /* 필터 행은 전체 폭을 사용하되 등록일은 일정 폭으로 유지한다. */
 .notice-board[data-notice-view="list"] .notice-filter-line{display:grid;width:100%;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:start}.notice-board[data-notice-view="list"] .notice-filter-line:nth-child(2){grid-template-columns:310px minmax(0,1fr)}.notice-board[data-notice-view="list"] .notice-filter-line>.field{width:100%;max-width:100%}.notice-filter-line .notice-status-filter{border:0;padding:0;margin:0;min-width:0}.notice-status-filter legend{font-size:14px;font-weight:600;margin-bottom:8px}.notice-filter-line .notice-category-options{flex-wrap:wrap;gap:8px 12px}.notice-board[data-notice-view="detail"] .notice-detail>.notice-row-label{grid-column:1}
 @media(max-width:650px){.notice-board[data-notice-view="list"] .notice-filter-line,.notice-board[data-notice-view="list"] .notice-filter-line:nth-child(2){grid-template-columns:minmax(0,1fr)}}
+
+.notice-board[data-notice-view="list"] .notice-filters>.row{align-self:center;justify-content:center}
