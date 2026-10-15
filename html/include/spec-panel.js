@@ -111,11 +111,11 @@
   toolbar.querySelector('[data-spec=numbers]').textContent=numbers?'번호 숨기기':'번호 표시';
   const role=document.getElementById('role-picker'),select=toolbar.querySelector('.ui-spec-actions select');
   if(role){if(!select.options.length)select.innerHTML=role.innerHTML;select.value=role.value;}
-  app.querySelectorAll('#filter-form button[type=submit],#filter-form button[data-notice-action=reset],#notice-size').forEach(button=>{
+  app.querySelectorAll('#filter-form button[type=submit],#filter-form button[data-notice-action=reset],#notice-size,#notice-sort').forEach(button=>{
    if(button.parentElement.classList.contains('ui-spec-control-anchor'))return;
-   const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';anchor.dataset.control=button.id==='notice-size'?'page-size':button.type==='submit'?'search':'reset';button.before(anchor);anchor.append(button);
+   const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';anchor.dataset.control=button.id==='notice-sort'?'sort':button.id==='notice-size'?'page-size':button.type==='submit'?'search':'reset';button.before(anchor);anchor.append(button);
   });
-  const targets=[['#filter-form .field:has([name=f1])',1],['#filter-form .field:has([name=f3])',2],['#filter-form .field:has([name=f2])',3],['.ui-spec-control-anchor[data-control=search]',4],['.ui-spec-control-anchor[data-control=reset]',5],['.notice-panel .panelhead h2',6],['.head-actions:has([data-notice-action=create])',7],['.notice-list .notice-title-column',8],['.head-actions:has(a[href="#NTC-05"])',9],['.notice-list thead th:last-child',10],['.ui-spec-control-anchor[data-control=page-size]',11]];
+  const targets=[['#filter-form .field:has([name=f1])',1],['#filter-form .field:has([name=f3])',2],['#filter-form .field:has([name=f2])',3],['.ui-spec-control-anchor[data-control=search]',4],['.ui-spec-control-anchor[data-control=reset]',5],['.notice-panel .panelhead h2',6],['.head-actions:has([data-notice-action=create])',7],['.notice-list tbody tr:first-child td:nth-child(3)',8],['.head-actions:has(a[href="#NTC-05"])',9],['.notice-list thead th:last-child',10],['.ui-spec-control-anchor[data-control=page-size]',11],['.ui-spec-control-anchor[data-control=sort]',12]];
   if(active&&contextKey!=='list'){
    targets.length=0;
    if(contextKey==='editor'){

@@ -27,3 +27,5 @@
 
 /* 공지사항 등록 번호: 항목명과 겹치지 않도록 좌측 상단 공간 확보. */
 .notice-board[data-notice-view="create"] .ui-spec-marked{padding-right:0;padding-left:34px}.notice-board[data-notice-view="create"] .ui-spec-pin[data-spec-number]{left:2px;right:auto;top:2px;bottom:auto}
+
+.notice-board[data-notice-view="list"] .notice-list td.ui-spec-marked{padding-left:38px}.notice-board[data-notice-view="list"] .notice-list td>.ui-spec-pin[data-spec-number="8"]{left:3px;right:auto;top:3px}
