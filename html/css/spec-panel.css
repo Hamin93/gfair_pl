@@ -77,3 +77,6 @@
 .ui-spec-item-info table{table-layout:fixed!important;min-width:650px!important}.ui-spec-item-info th:nth-child(1){width:95px}.ui-spec-item-info th:nth-child(2){width:85px}.ui-spec-item-info th:nth-child(3){width:65px}.ui-spec-item-info td:first-child{width:auto!important}.ui-spec-tab-body .ui-spec-table{padding:16px 0 8px;border-bottom:1px solid #ddd;margin-bottom:18px}.ui-spec-tab-body .ui-spec-table caption{font-weight:700;font-size:14px}.ui-spec-tab-body .ui-spec-table td{line-height:1.8}
 
 .ui-spec-item-info th:nth-child(4){width:30%}.ui-spec-item-info th:nth-child(5){width:auto}
+
+/* 공지사항 필터 개편 후 번호 위치 */
+.ui-spec-pin[data-spec-number="8"],.ui-spec-pin[data-spec-number="10"]{left:auto;right:3px;top:3px}.ui-spec-pin[data-spec-number="9"]{right:0;top:-12px}.ui-spec-pin[data-spec-number="7"]{left:0;right:auto;top:-12px}.ui-spec-control-anchor>.ui-spec-pin[data-spec-number]{left:-10px;right:auto;top:-12px}

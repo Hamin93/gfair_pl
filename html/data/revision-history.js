@@ -1,5 +1,6 @@
 window.GFAIR_REVISION_ACCOUNT_NAMES={"yulotsogreen":"shyu"};
 window.GFAIR_REVISION_HISTORY=[
+ {"version":"v5.5","screenId":"NTC-01","date":"2026.10.15","accountName":"yulotso0310-cyber","summary":"행사 중복 필터 제거, 통합검색 우측 배치, 대상 운영용역사 옵션 추가 및 명세 정리"},
  {"version":"v5.4","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"전용 시트의 상세 표를 01~12 번호별로 재배치하고 연동 유지"},
  {"version":"v5.3","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"NTC-01 공지사항목록 전용 시트 신설 및 전체 명세 자동 갱신 연결"},
  {"version":"v5.2","screenId":"NTC-01","date":"2026.10.14","accountName":"yulotso0310-cyber","summary":"개요 하단에 관리자·국내 바이어·통역원 권한 요약 및 공지 우선 노출 정책 표시"},

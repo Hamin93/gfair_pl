@@ -2,7 +2,7 @@
  const app=document.getElementById('app');
  if(!app)return;
  const base=new URL('.',document.currentScript.src);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-sheet-20261014',base);document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('../css/spec-panel.css?v=notice-filter-spec-20261015',base);document.head.append(css);
  let specs=window.GFAIR_NOTICE_SPEC||[];
  let sourceLabel="전용 시트 연결 준비 중",sheetBusy=false,sheetRequested=false;
  let access=window.GFAIR_NOTICE_ACCESS||[];
@@ -108,7 +108,7 @@
    if(button.parentElement.classList.contains('ui-spec-control-anchor'))return;
    const anchor=document.createElement('span');anchor.className='ui-spec-control-anchor';anchor.dataset.control=button.id==='notice-size'?'page-size':button.type==='submit'?'search':'reset';button.before(anchor);anchor.append(button);
   });
-  const targets=[['#filter-form > .field:nth-child(1)',1],['#filter-form > .field:nth-child(2)',2],['#filter-form > .field:nth-child(3)',3],['#filter-form > .field:nth-child(4)',4],['.ui-spec-control-anchor[data-control=search]',5],['.ui-spec-control-anchor[data-control=reset]',6],['.notice-panel .panelhead h2',7],['.head-actions:has([data-notice-action=create])',8],['.notice-list .notice-title-column',9],['.head-actions:has(a[href="#NTC-05"])',10],['.notice-list thead th:last-child',11],['.ui-spec-control-anchor[data-control=page-size]',12]];
+  const targets=[['#filter-form .field:has([name=f1])',1],['#filter-form .field:has([name=f3])',2],['#filter-form .field:has([name=f2])',3],['.ui-spec-control-anchor[data-control=search]',4],['.ui-spec-control-anchor[data-control=reset]',5],['.notice-panel .panelhead h2',6],['.head-actions:has([data-notice-action=create])',7],['.notice-list .notice-title-column',8],['.head-actions:has(a[href="#NTC-05"])',9],['.notice-list thead th:last-child',10],['.ui-spec-control-anchor[data-control=page-size]',11]];
   targets.forEach(([selector,id])=>{
    const target=app.querySelector(selector);if(!target)return;
    let pin=target.querySelector(':scope > .ui-spec-pin[data-spec-number="'+id+'"]');
